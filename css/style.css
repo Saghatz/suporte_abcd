@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Exo 2', sans-serif;
+}
+
+body, html {
+    background: url('../src/background3.jpg');
+    overflow: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+}
+
+body::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #fff;
+    border-radius: 20px;
+    border: 3px solid #000;
+}
+
+input {
+    border: 0;
+    border-bottom: 2px solid #000;
+    padding: 2px;
+    background: transparent;
+}
+
+textarea:focus, input:focus {
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
+button {
+    background: #fff;
+    font-size: 14px;
+    width: 140px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 15px;
+    transition: all 0.2s;
+    margin: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+/* BOTÕES 1ª LINHA*/
+.primary:hover {
+    background: #a2b7d6;
+}
+
+.colaborar:hover {
+    background: #735bb6;
+}
+
+.advogado:hover{
+    background: #321a74;
+}
+
+/* BOTÕES 2ª LINHA*/
+.penaTotal:hover {
+    background: #d60b0b;
+}
+
+.penaParcial:hover {
+    background: #49e01b;
+}
+
+.liberdade:hover{
+    background: #067233;
+}
+
+.multar:hover{
+    background: #b8204dd8;
+}
+
+/* BOTÕES 3ª LINHA*/
+.clean:hover {
+    background: #ca6a10;
+}
+
+.end:hover, .copiarFinalizado:hover {
+    background: #00a650;
+}
+
+/* LOGIN SCREEN */
+#login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    width: 350px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.login-box h2 { margin-bottom: 20px; color: #333; }
+.login-box input, .login-box select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.btn-entrar {
+    background: #321a74;
+    color: white;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* LAYOUT PRINCIPAL */
+.app-layout {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+    justify-content: center;
+    width: 1350px;
+    height: 850px;
+}
+
+/* STAFF PANEL E PREVIEW PANEL */
+#staff-panel, .preview-panel {
+    display: none;
+    background: rgba(15, 15, 20, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    width: 50%;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#staff-panel {
+    overflow-y: auto;
+}
+
+#discord_id {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+#discord_id:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.preview-panel {
+    height: 100%;
+}
+
+.preview-panel textarea {
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #00ff00; /* Estilo terminal */
+    font-family: 'Courier New', Courier, monospace;
+    padding: 15px;
+    resize: none;
+    margin-top: 15px;
+    box-sizing: border-box;
+}
+
+.btn-copy {
+    background: #00a650;
+    color: white;
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background: #333 !important;
+    width: 100% !important;
+    margin-top: auto !important;
+}
+
+.staff-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 4px solid transparent;
+}
+
+.staff-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.staff-group label {
+    display: block;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.section-estagiario { border-color: #2ecc71; }
+.section-suporte { border-color: #3498db; }
+.section-moderador { border-color: #f1c40f; }
+.section-administrador { border-color: #e74c3c; }
+
+.staff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-staff {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: 0.2s;
+    margin: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-staff:hover { filter: brightness(0.9); transform: scale(1.02); }
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sub-buttons-container {
+    display: none; /* Escondido por padrão */
+    padding-left: 20px;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.sub-btn {
+    font-size: 11px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+    margin: 0 !important;
+}
+
+.punish-select, .punish-id-field {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+.punish-row {
+    display: block;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.punish-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.punish-header input { flex: 1; }
+
+.btn-remove-row {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.selected-rules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.rule-tag {
+    background: rgba(52, 152, 219, 0.2);
+    border: 1px solid #3498db;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rule-tag i { cursor: pointer; color: #ff4d4d; font-style: normal; font-weight: bold; }
+
+.punish-divider {
+    border: 0;
+    margin: 10px 0;
+}
+
+.sub-menu-view {
+    text-align: left;
+    padding: 20px 0;
+    animation: fadeIn 0.3s ease;
+}
+
+.sub-session-title {
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+
+.btn-voltar {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    margin-top: 25px !important;
+    width: 100% !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+    width: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container strong {
+    color: white;
+    text-shadow:
+               -1px -1px 0px #000,
+               -1px 1px 0px #000,
+                1px -1px 0px #000,
+                1px 0px 0px #000;
+}
