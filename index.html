@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA STAFF - ABCD ROLEPLAY</title>
+    <link rel="shortcut icon" href="./src/ABCD_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="./js/index.js"></script>
+</head>
+<body>
+
+    <!-- TELA DE LOGIN -->
+    <div id="login-screen">
+        <div class="login-box">
+            <img src="./src/ABCD_favicon.ico" width="60" alt="Logo">
+            <h2>Acesso STAFF</h2>
+            <input type="text" id="user_name" placeholder="Nome de Usuário" autocomplete="off">
+            <select id="user_role">
+                <option value="estagiario">Estagiário</option>
+                <option value="suporte">Suporte</option>
+                <option value="moderador">Moderador</option>
+                <option value="administrador">Administrador</option>
+            </select>
+            <button class="btn-entrar" onclick="realizarLogin()">ENTRAR NO SISTEMA</button>
+        </div>
+    </div>
+
+    <div class="app-layout">
+        <!-- PAINEL STAFF -->
+        <div id="staff-panel">
+            <p><strong>PAINEL DE ATENDIMENTO STAFF</strong></p>
+            <input type="text" id="discord_id" placeholder="ID DO AUTOR DO TICKET/DENÚNCIA">
+
+            <!-- SEÇÃO ESTAGIÁRIO -->
+            <div class="staff-section section-estagiario" data-nivel="estagiario">
+                <div class="staff-group">
+                    <label>TICKET</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Boas Vindas', 'Olá! Seja bem-vindo ao suporte do ABCD Roleplay. Como posso te ajudar?')">MENSAGEM DE BOAS VINDAS</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Ajuda', 'Estou aqui para sanar suas dúvidas. Em que posso ser útil no momento?')">EM QUE POSSO AJUDAR</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Passagem', 'Estou passando seu atendimento para um superior. Por favor, aguarde um momento.')">PASSAGEM DE ATENDIMENTO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Encerramento', 'Atendimento finalizado. Caso precise de algo mais, sinta-se à vontade para abrir um novo ticket!')">ENCERRAMENTO</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO SUPORTE -->
+            <div class="staff-section section-suporte" data-nivel="suporte">
+                <div class="staff-group">
+                    <label>TICKET</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Boas Vindas', 'Olá! Seja bem-vindo ao suporte. Como posso ajudar?')">MENSAGEM DE BOAS VINDAS</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Ajuda', 'Como posso ser útil no momento?')">EM QUE POSSO AJUDAR</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Passagem', 'Aguarde um momento enquanto um Moderador assume seu caso.')">PASSAGEM DE ATENDIMENTO</button>
+                        <div class="parent-container">
+                            <button class="btn-staff" onclick="toggleSubButtons(this)">ENCERRAMENTO DE TICKET</button>
+                            <div class="sub-buttons-container">
+                                <button class="btn-staff sub-btn" onclick="selecionarMensagem('Ausência', 'Ticket encerrado por falta de retorno do usuário.')">AUSÊNCIA DE RETORNO</button>
+                                <button class="btn-staff sub-btn" onclick="selecionarMensagem('Fechamento', 'Ticket finalizado com sucesso. Obrigado pelo contato!')">FECHAMENTO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>DENUNCIA</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Modelo Denúncia', '**[MODELO DE DENÚNCIA]**\nID do Acusado:\nMotivo:\nProvas (Vídeo/Print):')">MODELO DE DENUNCIA</button>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>ASSUMIR</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Batalhão', 'Assumindo monitoramento do Batalhão.')">BATALHÃO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Favela', 'Assumindo monitoramento da Favela.')">FAVELA</button>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>INFLUENCIADOR</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Influenciador', 'Verifique requisitos para influenciadores.')">COMO SER INFLUENCIADOR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO MODERADOR -->
+            <div class="staff-section section-moderador" data-nivel="moderador">
+                <div class="staff-group">
+                    <label>TICKET</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Boas Vindas', 'Olá! Moderador assumindo seu atendimento.')">MENSAGEM DE BOAS VINDAS</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Ajuda', 'Como posso ajudar?')">EM QUE POSSO AJUDAR</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Passagem', 'Passando para Administração.')">PASSAGEM DE ATENDIMENTO</button>
+                        <div class="parent-container">
+                            <button class="btn-staff" onclick="toggleSubButtons(this)">ENCERRAMENTO DE TICKET</button>
+                            <div class="sub-buttons-container">
+                                <button class="btn-staff sub-btn" onclick="selecionarMensagem('Ausência', 'Encerrado por ausência.')">AUSÊNCIA DE RETORNO</button>
+                                <button class="btn-staff sub-btn" onclick="selecionarMensagem('Fechamento', 'Encerrado com sucesso.')">FECHAMENTO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>DENÚNCIA</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Modelo', 'Modelo de denúncia.')">MODELO DE DENÚNCIA</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Desconsiderar', 'Denúncia desconsiderada.')">DESCONSIDERAR</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Intimação', 'Você está sendo intimado a comparecer ao suporte imediatamente.')">INTIMAÇÃO</button>
+                        <div class="parent-container">
+                            <button class="btn-staff" onclick="toggleSubButtons(this)">DESFEXO</button>
+                            <div class="sub-buttons-container">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>ADVERTÊNCIA</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Retorno', 'Retorno solicitado.')">SOLICITAR RETORNO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Discussão', 'Em discussão interna.')">DISCUÇÃO</button>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>ASSUMIR</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Batalhão', 'Moderador assumindo Batalhão.')">BATALHÃO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Favela', 'Moderador assumindo Favela.')">FAVELA</button>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>INFLUENCIADOR</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Influenciador', 'Sobre influenciadores.')">COMO SER INFLUENCIADOR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO ADMINISTRADOR -->
+            <div class="staff-section section-administrador" data-nivel="administrador">
+                <div class="staff-group">
+                    <label>TICKET</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Boas Vindas', 'Administração assumindo.')">MENSAGEM DE BOAS VINDAS</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Ajuda', 'Como posso ajudar?')">EM QUE POSSO AJUDAR</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Passagem', 'Administração acompanhando.')">PASSAGEM DE ATENDIMENTO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Reembolso', 'Reembolso processado.')">REEMBOLSO</button>
+                        <div class="parent-container">
+                            <button class="btn-staff" onclick="toggleSubButtons(this)">ENCERRAMENTO DE TICKET</button>
+                            <div class="sub-buttons-container">
+                                <button class="btn-staff sub-btn" onclick="selecionarMensagem('Ausência', 'Encerrado por ausência.')">AUSÊNCIA DE RETORNO</button>
+                                <button class="btn-staff sub-btn" onclick="selecionarMensagem('Fechamento', 'Resolvido.')">FECHAMENTO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>DENÚNCIA</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Modelo', 'Modelo oficial.')">MODELO DE DENÚNCIA</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Intimação', 'Compareça ao suporte.')">INTIMAÇÃO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Desconsiderar', 'Desconsiderado.')">DESCONSIDERAR</button>
+                        <div class="parent-container">
+                            <button class="btn-staff" onclick="toggleSubButtons(this)">DESFEXO</button>
+                            <div class="sub-buttons-container">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>ADVERTÊNCIA</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Retorno', 'Retorno imediato.')">SOLICITAR RETORNO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Discussão', 'Discussão administrativa.')">DISCUÇÃO</button>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>ASSUMIR</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Batalhão', 'Administração no Batalhão.')">BATALHÃO</button>
+                        <button class="btn-staff" onclick="selecionarMensagem('Favela', 'Administração na Favela.')">FAVELA</button>
+                    </div>
+                </div>
+                <div class="staff-group">
+                    <label>INFLUENCIADOR</label>
+                    <div class="staff-grid">
+                        <button class="btn-staff" onclick="selecionarMensagem('Influenciador', 'Diretrizes influenciadores.')">COMO SER INFLUENCIADOR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="obs">
+                <p></p>
+                <button class="btn-staff logout-btn" onclick="localStorage.clear(); location.reload();">SAIR DO SISTEMA (LOGOUT)</button>
+            </div>
+        </div>
+
+        <!-- CONTAINER DE PRÉVIA -->
+        <div class="preview-panel">
+            <p><strong>PRÉVIA DA MENSAGEM</strong></p>
+            <textarea id="preview-text" readonly placeholder="Selecione uma opção ao lado para gerar a prévia..."></textarea>
+            <button class="btn-copy" onclick="copiarPrevia()">COPIAR PARA O DISCORD</button>
+        </div>
+    </div>
+
+</body>
+</html>
