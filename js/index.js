@@ -5,7 +5,8 @@ const DISCORD_IDS = {
         'administrador': '758007837958865046',
         'diretor': '826569114620657719',
         'cmo': '1098702235757711440',
-        'staff_geral': '1013273930519298099'
+        'staff_geral': '1013273930519298099',
+        'paulista': '1509163738333319270'
     },
     warnings: {
         'AVISO VERBAL': '827425915859894303',
@@ -19,6 +20,66 @@ const DISCORD_IDS = {
         'BAN INDETERMINADO': '1275289022737940511'
     }
 };
+
+// Regras da Cidade (conforme regras_abcd.txt - Adicione ou edite aqui)
+const CITY_RULES = {
+    "RDM": "Random Deathmatch - Matar ou agredir sem motivo ou contexto de RP.",
+    "VDM": "Vehicle Deathmatch - Usar veículo como arma para atropelar ou matar.",
+    "COMBAT LOG": "Deslogar para evitar situações desfavoráveis, prisões ou mortes.",
+    "POWER GAMING": "Ações impossíveis na vida real ou abuso da física (ex: subir morro com carro baixo).",
+    "META GAMING": "Uso de info OOC no IC ou uso indevido do /ID.",
+    "FEAR RP": "Amor à vida - Não valorizar a própria vida em situações de rendição ou risco.",
+    "ZONA SEGURA (SAFE)": "Prática de crimes, agressões ou uso de máscaras em Áreas Neutras.",
+    "FORÇAR RP": "Obrigar outro player a um RP indesejado ou provocar sem contexto ilícito.",
+    "DARK RP": "RP pesado envolvendo assédio, estupro, racismo, xenofobia, homofobia ou constrangimento grave.",
+    "REVENGE KILL": "Vingança pela própria morte/desmaio.",
+    "ABUSO DE BUGS": "Uso de glitches, macros ou falhas do sistema para vantagem.",
+    "CAIXA 2": "Comércio de itens, contas ou moedas por dinheiro real (OOC).",
+    "JOB BAIT": "Enganar sobre serviços ou empregos legais para atrair vítimas.",
+    "LOOT INDEVIDO": "Saquear policiais ou civis aleatórios saquerem envolvidos em ações de banco/lojinha.",
+    "MODS DE VANTAGEM": "Uso de Citizen, remoção de props ou sons modificados para vantagem.",
+    "RECUSA DE RP": "Recusar colaborar com procedimentos médicos ou policiais obrigatórios.",
+    "QUEBRA DE IMERSÃO": "Uso de termos OOC (prefeitura, deuses, bíblia) dentro do jogo.",
+    "DISCRIMINAÇÃO": "Preconceito, racismo, homofobia ou qualquer discurso de ódio.",
+    "ASSALTO A TRABALHADOR": "Proibido assaltar Médicos, Mecânicos ou veículos de emprego legal.",
+    "LIMITE DE REFÉNS": "A quantidade máxima permitida de reféns será 8.",
+    "AGREDIR EM SERVIÇO": "Proibido agredir ou sequestrar profissionais de serviço (SAMU/PM/MEC).",
+    "REANIMAR P/ ROUBAR": "Proibido reanimar alguém para obrigar a passar info ou roubar.",
+    "RECONHECIMENTO INDEVIDO": "Reconhecer player mascarado sem o uso de alterador de voz.",
+    "ALIANÇA PROIBIDA": "União entre facções independentes ou líderes sem autorização.",
+    "GOLPES E FRAUDES": "Proibido aplicar qualquer roleplay de golpe, fraude ou enganação intencional.",
+    "POLUIÇÃO SONORA": "Uso de música ou barulho excessivo em Hospital ou Delegacia.",
+    "DIVULGAÇÃO": "Aliciamento ou menção a outros servidores de RP.",
+    "NÃO SE RENDER (PERSEGUIÇÃO)": "Não se render após capotamento ou queda grave de moto em fuga.",
+    "DISPARO DE BLINDADO": "Proibido atirar de dentro de veículos blindados.",
+    "REVISTA EM DESMAIADO": "Revistar pessoas nocauteadas na rua sem contexto de ação envolvida.",
+    "QUEBRA REGRA DE MORTE": "Voltar na ação ou usar informações obtidas antes de desmaiar (PD).",
+    "FUGA PARA RESIDÊNCIA": "Entrar em casas privadas para fugir da polícia (Power Gaming).",
+    "INVASÃO DE BASE POLICIAL": "Invasão de DP ou Batalhão sem planejamento ou motivo sólido.",
+    "BLOQUEIO DE PORTAS": "Obstruir entradas de lojas ou bancos de forma artificial em ações.",
+    "DESCE E QUEBRA": "Desembarcar atirando imediatamente sem priorizar a fuga limpa.",
+    "ARMA PESADA NA CIDADE": "Uso de SMG/Fuzil abaixo da linha vermelha (exceto favela/ação).",
+    "SEQUESTRO COM MOTO": "Proibido realizar sequestros utilizando motocicletas.",
+    "NEGOCIAR ARMAS POR REFÉM": "Proibido exigir armamento ou munição em troca de reféns.",
+    "EXCESSO DE MEMBROS": "Exceder o limite de integrantes setados (60 Facção / 40 Rua).",
+    "CARREGAR PM P/ ÁREA VERMELHA": "Levar policiais para favelas com intuito exclusivo de saque.",
+    "ATIRAR EM PATRULHA": "Disparar contra viaturas que realizam apenas patrulhamento preventivo.",
+    "ABUSO DE ANIMAÇÕES": "Uso de binds, /bvida ou animações para cancelar ações ou vantagem em combate.",
+    "DESRESPEITO HIERÁRQUICO": "Desobediência a ordens de patentes superiores no legal.",
+    "NEGATIVA DE IDENTIFICAÇÃO": "Policial negar informar QRA ou patente em abordagem.",
+    "COPBAIT": "Provocar a polícia sem contexto ilícito (dar drift, empinar na frente da VTR).",
+    "FALTA DE AMOR À VIDA": "Desafiar sequestradores, fazer dancinhas ou deboche estando rendido.",
+    "SUICÍDIO RP": "Realizar qualquer roleplay que remeta a suicídio.",
+    "SAIR DO RP": "Abandonar a situação ou 'congelar' o RP sem autorização da Staff."
+};
+
+function getDataExpiracao() {
+    const data = new Date();
+    data.setMonth(data.getMonth() + 1);
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    return `${dia}/${mes}/${data.getFullYear()}`;
+}
 
 function realizarLogin() {
     const cargo = $('#user_role').val();
@@ -58,11 +119,33 @@ function selecionarMensagem(titulo, conteudo) {
     $('#preview-text').val(mensagemFormatada);
 }
 
-function copiarPrevia() {
+function copiarPrevia(btn) {
     const texto = $('#preview-text').val();
     if (!texto) return;
 
     navigator.clipboard.writeText(texto);
+
+    // Feedback Visual
+    const $btn = $(btn);
+    
+    $btn.text('COPIADO!').addClass('btn-action-success');
+    
+    setTimeout(() => {
+        $btn.text('COPIAR').removeClass('btn-action-success');
+    }, 1000);
+}
+
+function limparPrevia(btn) {
+    $('#preview-text').val('');
+
+    // Feedback Visual
+    const $btn = $(btn);
+    
+    $btn.text('LIMPO!').addClass('btn-action-success');
+    
+    setTimeout(() => {
+        $btn.text('LIMPAR').removeClass('btn-action-success');
+    }, 1000);
 }
 
 function toggleSubButtons(btn) {
@@ -82,7 +165,7 @@ function toggleSubButtons(btn) {
 
     let content = `<p class="sub-session-title"><strong>${menuTitle}</strong></p>`;
 
-    if (menuTitle.includes("DESFEXO") || menuTitle.includes("DESFECHO")) {
+    if (menuTitle.includes("DESFECHO")) {
         $('#obs').hide(); // Remove o logout/obs desta sessão
         content += `
             <div class="punish-config">
@@ -90,6 +173,7 @@ function toggleSubButtons(btn) {
                     ${gerarTemplateLinhaPunicao()}
                 </div>
                 <button class="btn-staff" style="width: 100%; margin-top: 5px; background: #3498db;" onclick="adicionarInputPunicao()">+ ADICIONAR NOVO PLAYER</button>
+                <button class="btn-staff" style="width: 100%; margin-top: 5px; background: #e74c3c;" onclick="limparDesfexo()">LIMPAR TUDO</button>
             </div>`;
     } else if (menuTitle.includes("PASSAGEM")) {
         $('#obs').hide(); // Oculta o container de logout para focar na passagem
@@ -135,6 +219,23 @@ function toggleSubButtons(btn) {
                     <input type="text" id="return_time" class="punish-id-field" placeholder="Informe apenas a hora" oninput="atualizarMensagemRetorno()" style="width: 100%;">
                 </div>
             </div>`;
+    } else if (menuTitle.includes("SOLICITAR")) {
+        $('#obs').hide();
+        content += `
+            <div class="staff-grid" style="justify-content: flex-start;">
+                <button class="btn-staff" onclick="abrirFormSolicitacao('ADVERTÊNCIA')">ADVERTÊNCIA</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('AVISO VERBAL')">AVISO VERBAL</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('BAN')">BAN</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('BAN TEMPORÁRIO')">BAN TEMPORÁRIO</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('DESBAN')">DESBAN</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('ORIENTAÇÃO')">ORIENTAÇÃO</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('TAG')">TAG</button>
+                <button class="btn-staff" onclick="abrirFormSolicitacao('TELAGEM')">TELAGEM</button>
+            </div>`;
+    } else if (menuTitle.includes("REEMBOLSO")) {
+        $('#obs').hide();
+        abrirFormSolicitacao('REEMBOLSO', true);
+        return; // Interrompe para evitar duplicação de títulos/botões
     } else {
         content += `<div class="staff-grid" style="justify-content: flex-start;">${$subContainer.html() || ''}</div>`;
     }
@@ -143,27 +244,288 @@ function toggleSubButtons(btn) {
     $subView.html(content).show();
 }
 
+function abrirFormSolicitacao(tipo, isTopLevel = false) {
+    const $section = $('.staff-section:visible');
+    const $subView = $section.find('.sub-menu-view');
+    const expiry = getDataExpiracao();
+
+    let content = `<p class="sub-session-title"><strong>SOLICITAÇÃO: ${tipo}</strong></p>`;
+    content += `<div class="punish-config" style="display: flex; flex-direction: column; gap: 10px;">`;
+    
+    content += `<input type="text" id="sol_discord_id" class="punish-id-field" placeholder="ID DO DISCORD (PARA MENÇÃO)" oninput="atualizarPreviewSolicitacao('${tipo}')">`;
+
+    switch(tipo) {
+        case 'ADVERTÊNCIA':
+            let warningOptions = '<option value="" style="background: #0f172a; color: #fff;">+ Selecionar Cargo...</option>';
+            Object.keys(DISCORD_IDS.warnings).forEach(key => {
+                warningOptions += `<option value="${key}" style="background: #0f172a; color: #fff;">${key}</option>`;
+            });
+            content += `
+                <input type="text" id="sol_player_id" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <select id="sol_warning" class="punish-select" onchange="atualizarPreviewSolicitacao('${tipo}')" style="appearance: auto;">${warningOptions}</select>
+                <p style="font-size: 11px; color: #94a3b8; font-weight: bold;">EXPIRA EM: ${expiry}</p>`;
+            break;
+        case 'AVISO VERBAL':
+            content += `
+                <input type="text" id="sol_player_id" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <input type="text" id="sol_reason" class="punish-id-field" placeholder="MOTIVO DO AVISO VERBAL" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <p style="font-size: 11px; color: #94a3b8; font-weight: bold;">EXPIRA EM: ${expiry}</p>`;
+            break;
+        case 'BAN':
+        case 'DESBAN':
+            content += `
+                <input type="text" id="sol_player_id" class="punish-id-field" placeholder="ID" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <input type="text" id="sol_acid" class="punish-id-field" placeholder="AC-ID" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <input type="text" id="sol_lic" class="punish-id-field" placeholder="LICENÇAS" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <input type="text" id="sol_ip" class="punish-id-field" placeholder="IP" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <input type="text" id="sol_hex" class="punish-id-field" placeholder="STEAM HEX" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <textarea id="sol_reason" class="punish-id-field" placeholder="MOTIVO" oninput="atualizarPreviewSolicitacao('${tipo}')" style="height: 60px;"></textarea>`;
+            if (tipo === 'DESBAN') {
+                content += `<input type="text" id="sol_ticket" class="punish-id-field" placeholder="ID DO CANAL DO TICKET" oninput="atualizarPreviewSolicitacao('${tipo}')">`;
+            }
+            break;
+        case 'BAN TEMPORÁRIO':
+        case 'TELAGEM':
+            content += `
+                <input type="text" id="sol_player_id" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <textarea id="sol_reason" class="punish-id-field" placeholder="MOTIVO" oninput="atualizarPreviewSolicitacao('${tipo}')" style="height: 60px;"></textarea>`;
+            break;
+        case 'ORIENTAÇÃO':
+            content += `
+                <input type="text" id="sol_player_id" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarPreviewSolicitacao('${tipo}')">
+                <textarea id="sol_orient" class="punish-id-field" placeholder="ORIENTAÇÃO" oninput="atualizarPreviewSolicitacao('${tipo}')" style="height: 60px;"></textarea>
+                <p style="font-size: 11px; color: #94a3b8; font-weight: bold;">EXPIRA EM: ${expiry}</p>`;
+            break;
+        case 'REEMBOLSO':
+            content += `
+                <input type="text" id="sol_player_id" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarPreviewSolicitacao('${tipo}')">`;
+            break;
+        case 'TAG':
+            let tagOptions = '<option value="" style="background: #0f172a; color: #fff;">+ Selecionar Cargo...</option>';
+            Object.keys(DISCORD_IDS.warnings).forEach(key => {
+                tagOptions += `<option value="${key}" style="background: #0f172a; color: #fff;">${key}</option>`;
+            });
+            content += `
+                <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">SELECIONAR CARGOS PREDEFINIDOS:</label>
+                <select id="sol_tag_select" class="punish-select" onchange="adicionarTag(this)" style="appearance: auto;">${tagOptions}</select>
+                <div id="selected_tags" class="selected-rules" style="margin-top: 5px;"></div>
+                <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">ID DO CARGO PERSONALIZADO:</label>
+                <input type="text" id="sol_custom_role_id" class="punish-id-field" placeholder="EX: 123456789" oninput="atualizarPreviewSolicitacao('${tipo}')">`;
+            break;
+    }
+
+    content += `</div>`;
+    
+    if (isTopLevel) {
+        content += `<button class="btn-staff btn-voltar" onclick="voltarMenuPrincipal(this)">VOLTAR AO MENU</button>`;
+    } else {
+        content += `<button class="btn-staff btn-voltar" onclick="voltarParaSolicitar()">VOLTAR PARA SOLICITAR</button>`;
+    }
+    
+    $subView.html(content);
+    atualizarPreviewSolicitacao(tipo);
+}
+
+function atualizarPreviewSolicitacao(tipo) {
+    const discordIdInput = $('#sol_discord_id').val();
+    const playerId = $('#sol_player_id').val();
+    const expiry = getDataExpiracao();
+    let lines = [];
+
+    if (discordIdInput) lines.push(`<@${discordIdInput}>`);
+
+    switch(tipo) {
+        case 'ADVERTÊNCIA':
+            if (playerId) lines.push(`ID: ${playerId}`);
+            const warnRole = $('#sol_warning').val();
+            if (warnRole) {
+                const warnMention = DISCORD_IDS.warnings[warnRole] ? `<@&${DISCORD_IDS.warnings[warnRole]}>` : warnRole;
+                lines.push(warnMention);
+            }
+            lines.push(`Expira: ${expiry}`);
+            break;
+        case 'AVISO VERBAL':
+            if (playerId) lines.push(`ID: ${playerId}`);
+            const avReason = $('#sol_reason').val();
+            if (avReason) lines.push(`Motivo do Aviso Verbal: ${avReason}`);
+            lines.push(`Expira: ${expiry}`);
+            break;
+        case 'BAN':
+        case 'DESBAN':
+            if (playerId) lines.push(`ID: ${playerId}`);
+            const acid = $('#sol_acid').val();
+            if (acid) lines.push(`AC-ID: ${acid}`);
+            const lic = $('#sol_lic').val();
+            if (lic) lines.push(`Licencas: ${lic}`);
+            const ip = $('#sol_ip').val();
+            if (ip) lines.push(`IP: ${ip}`);
+            const hex = $('#sol_hex').val();
+            if (hex) lines.push(`Steam HEX: ${hex}`);
+            const reason = $('#sol_reason').val();
+            if (reason) {
+                const label = tipo === 'BAN' ? 'MOTIVO' : 'Motivo';
+                lines.push(`${label}: ${reason}`);
+            }
+            if (tipo === 'DESBAN') {
+                const ticket = $('#sol_ticket').val();
+                if (ticket) lines.push(`Ticket: <#${ticket}>`);
+            }
+            break;
+        case 'BAN TEMPORÁRIO':
+        case 'TELAGEM':
+            if (playerId) lines.push(`ID: ${playerId}`);
+            const btReason = $('#sol_reason').val();
+            if (btReason) lines.push(`MOTIVO: ${btReason}`);
+            break;
+        case 'ORIENTAÇÃO':
+            if (playerId) lines.push(`ID: ${playerId}`);
+            const orient = $('#sol_orient').val();
+            if (orient) lines.push(`Orientação: ${orient}`);
+            lines.push(`Expira: ${expiry}`);
+            break;
+        case 'REEMBOLSO':
+            if (discordIdInput || playerId) {
+                const playerMencao = discordIdInput ? `<@${discordIdInput}>` : "";
+                const msgReembolso = `Olá prezado(a) ${playerMencao}, tudo bom?\n\nPeço que aguarde, em breve vamos lhe enviar todas as informações sobre o método de reembolso.\n\nAté lá, manteremos o ticket aberto.\n\nAgradecemos pela sua compreensão e paciência!\n\nObs.: Não é necessário marcar novamente nenhum STAFF\n\n<@&1098702235757711440>`;
+                $('#preview-text').val(msgReembolso);
+            } else {
+                $('#preview-text').val('');
+            }
+            return;
+        case 'TAG':
+            const mentionPlayer = discordIdInput ? `<@${discordIdInput}>` : "[MENCIONAR DISCORD]";
+            let tags = [];
+            $('#selected_tags .rule-tag').each(function() {
+                const tagName = $(this).text().replace('×', '').trim();
+                const tagId = DISCORD_IDS.warnings[tagName];
+                tags.push(tagId ? `<@&${tagId}>` : tagName);
+            });
+            const customRoleId = $('#sol_custom_role_id').val();
+            if (customRoleId) tags.push(`<@&${customRoleId}>`);
+
+            let tagsTexto = "[CARGO]";
+            if (tags.length === 1) tagsTexto = tags[0];
+            else if (tags.length > 1) {
+                const tempTags = [...tags];
+                const ultima = tempTags.pop();
+                tagsTexto = tempTags.join(', ') + ' e ' + ultima;
+            }
+
+            const msgTag = `<@1510791816423936093>, Por gentileza setar o cargo ${tagsTexto} no player ${mentionPlayer}.`;
+            // Só mostra a tag se houver algo informado, senão limpa
+            if (!discordIdInput && tags.length === 0 && !customRoleId) {
+                $('#preview-text').val('');
+            } else {
+                $('#preview-text').val(msgTag);
+            }
+            return;
+    }
+
+    $('#preview-text').val(lines.length > 0 ? lines.join('\n') : '');
+}
+
+function voltarParaSolicitar() {
+    const $section = $('.staff-section:visible');
+    const $btnSolicitar = $section.find('.btn-staff:contains("SOLICITAR")');
+    
+    // Simulamos o clique no botão SOLICITAR original para reconstruir a grade
+    if ($btnSolicitar.length > 0) {
+        toggleSubButtons($btnSolicitar[0]);
+    } else {
+        voltarMenuPrincipal($('.btn-voltar')[0]);
+    }
+}
+
+function adicionarTag(select) {
+    const val = $(select).val();
+    if (!val) return;
+    
+    const $container = $('#selected_tags');
+    
+    if ($container.find(`.rule-tag:contains('${val}')`).length === 0) {
+        $container.append(`
+            <span class="rule-tag">
+                ${val} <i onclick="removerTag(this)">×</i>
+            </span>
+        `);
+    }
+    
+    $(select).val('');
+    atualizarPreviewSolicitacao('TAG');
+}
+
+function removerTag(element) {
+    $(element).parent().remove();
+    atualizarPreviewSolicitacao('TAG');
+}
+
 function gerarTemplateLinhaPunicao() {
-    let options = '<option value="">+ Adicionar Regra...</option>';
+    let punishOptions = '<option value="" style="background: #0f172a; color: #fff;">+ Selecionar...</option>';
     Object.keys(DISCORD_IDS.warnings).forEach(key => {
-        options += `<option value="${key}">${key}</option>`;
+        punishOptions += `<option value="${key}" style="background: #0f172a; color: #fff;">${key}</option>`;
     });
+
+    const sortedRules = Object.keys(CITY_RULES).sort();
+    const customArrow = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E";
+    
+    let rulesGrid = '<div class="rules-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 5px; max-height: 150px; overflow-y: auto; padding: 8px; background: #0a0e16; border: 1px solid #334155; border-radius: 4px;">';
+    sortedRules.forEach(rule => {
+        rulesGrid += `
+            <div class="rule-item" 
+                 onclick="selecionarCitacaoRegra(this, '${rule}')" 
+                 style="background: #1e293b; color: #94a3b8; padding: 5px; font-size: 9px; border-radius: 3px; cursor: pointer; text-align: center; border: 1px solid #334155; transition: all 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" 
+                 title="${CITY_RULES[rule]}">
+                ${rule}
+            </div>`;
+    });
+    rulesGrid += '</div>';
 
     return `
         <div class="punish-row">
             <div class="punish-header">
-                <input type="text" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarMensagemPunicao()">
+                <input type="text" class="punish-id-field" placeholder="ID DO PLAYER" oninput="atualizarMensagemPunicao()" style="background: #0f172a; color: #fff; border: 1px solid #334155; padding: 8px; border-radius: 4px; flex-grow: 1; outline: none;">
                 <button class="btn-remove-row" onclick="removerPlayer(this)">×</button>
             </div>
-            <select class="punish-select punish-rule-select" onchange="adicionarRegra(this)">
-                ${options}
+
+            <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">CITAR REGRAS VIOLADAS (CLIQUE PARA SELECIONAR):</label>
+            <input type="text" placeholder="🔍 Pesquisar regra..." oninput="filtrarRegras(this)" style="background: #0f172a; color: #fff; border: 1px solid #334155; padding: 6px; border-radius: 4px; width: 100%; margin-top: 5px; font-size: 11px; outline: none;">
+            ${rulesGrid}
+            <div class="cited-rules" style="margin-top: 5px;"></div>
+
+            <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">PUNIÇÃO APLICADA:</label>
+            <select class="punish-select punish-rule-select" onchange="adicionarRegra(this)" style="background-color: #0f172a; color: #fff; border: 1px solid #334155; padding: 8px 30px 8px 8px; border-radius: 4px; width: 100%; margin-top: 5px; outline: none; appearance: none; -webkit-appearance: none; background-image: url(&quot;${customArrow}&quot;); background-repeat: no-repeat; background-position: right 10px center;">
+                ${punishOptions}
             </select>
             <div class="selected-rules"></div>
+
+            <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">AGRAVO (CASO NÃO COMPAREÇA):</label>
+            <select class="punish-select aggravate-select" onchange="atualizarMensagemPunicao()" style="background-color: #0f172a; color: #fff; border: 1px solid #334155; padding: 8px 30px 8px 8px; border-radius: 4px; width: 100%; margin-top: 5px; outline: none; border-left: 3px solid #e74c3c; appearance: none; -webkit-appearance: none; background-image: url(&quot;${customArrow}&quot;); background-repeat: no-repeat; background-position: right 10px center;">
+                ${punishOptions}
+            </select>
         </div>`;
 }
 
 function adicionarInputPunicao() {
     $('#punish_ids_container').append(gerarTemplateLinhaPunicao());
+}
+
+function limparDesfexo() {
+    $('#punish_ids_container').html(gerarTemplateLinhaPunicao());
+    $('#preview-text').val('');
+}
+
+function filtrarRegras(input) {
+    const termo = $(input).val().toLowerCase();
+    const $grid = $(input).next('.rules-grid');
+    
+    $grid.find('.rule-item').each(function() {
+        const textoRegra = $(this).text().toLowerCase();
+        if (textoRegra.includes(termo)) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
 }
 
 function adicionarRegra(select) {
@@ -185,6 +547,23 @@ function adicionarRegra(select) {
     atualizarMensagemPunicao();
 }
 
+function selecionarCitacaoRegra(element, val) {
+    const $container = $(element).closest('.punish-row').find('.cited-rules');
+    if ($container.find(`.rule-tag:contains('${val}')`).length === 0) {
+        $container.append(`
+            <span class="rule-tag" style="background: #1e293b; border: 1px solid #334155; padding: 4px 8px; border-radius: 4px; font-size: 11px; margin-right: 5px; margin-bottom: 5px; display: inline-flex; align-items: center; gap: 5px; color: #94a3b8;">
+                ${val} <i onclick="removerCitacaoRegra(this)" style="cursor: pointer; color: #dc2626;">×</i>
+            </span>
+        `);
+    }
+    atualizarMensagemPunicao();
+}
+
+function removerCitacaoRegra(element) {
+    $(element).parent().remove();
+    atualizarMensagemPunicao();
+}
+
 function removerRegra(element) {
     $(element).parent().remove();
     atualizarMensagemPunicao();
@@ -196,27 +575,96 @@ function removerPlayer(btn) {
 }
 
 function atualizarMensagemPunicao() {
-    let punishLines = [];
+    let players = [];
+    const reporterId = $('#discord_id').val() || "[ID_AUTOR]";
+
     $('.punish-row').each(function() {
         const id = $(this).find('.punish-id-field').val().trim();
-        let rules = [];
-        $(this).find('.rule-tag').each(function() {
+        const aggravated = $(this).find('.aggravate-select').val();
+
+        let punishments = [];
+        $(this).find('.selected-rules .rule-tag').each(function() {
             const ruleName = $(this).text().replace('×', '').trim();
             const ruleId = DISCORD_IDS.warnings[ruleName];
-            rules.push(ruleId ? `<@&${ruleId}>` : ruleName);
+            punishments.push(ruleId ? `<@&${ruleId}>` : ruleName);
         });
 
-        if (id && rules.length > 0) {
-            punishLines.push(`- <@${id}> | **Regras:** ${rules.join(', ')}`);
+        let citations = [];
+        $(this).find('.cited-rules .rule-tag').each(function() {
+            const ruleName = $(this).text().replace('×', '').trim();
+            if (CITY_RULES[ruleName]) {
+                citations.push(`**${ruleName}** (${CITY_RULES[ruleName]})`);
+            }
+        });
+
+        if (id) {
+            players.push({
+                id: id,
+                punishments: punishments,
+                citations: citations,
+                aggravated: aggravated ? (DISCORD_IDS.warnings[aggravated] ? `<@&${DISCORD_IDS.warnings[aggravated]}>` : aggravated) : "[SELECIONAR AGRAVO]"
+            });
         }
     });
 
-    if (punishLines.length > 0) {
-        const conteudo = "Após análise, foi confirmada a violação das regras.\n\n**Player(s) Punido(s):**\n" + 
-                         punishLines.join('\n') + 
-                         "\n\nPunição aplicada conforme diretrizes.";
-        selecionarMensagem("DESFEXO", conteudo);
+    if (players.length === 0) return;
+
+    let conteudo = "Olá prezados,\n\n";
+
+    // 1. Blocos individuais por player
+    players.forEach((p, index) => {
+        const numMotivos = p.citations.length;
+        const textoMotivo = numMotivos > 1 ? "pelos seguintes motivos" : "pelo seguinte motivo";
+        const motivos = numMotivos > 0 
+            ? p.citations.map((c, i) => `- ${i + 1}. ${c}`).join('\n')
+            : "- 1. [MOTIVO NÃO INFORMADO]";
+
+        const punicaoTexto = p.punishments.length > 0 ? p.punishments.join(', ') : "[PUNIÇÃO]";
+
+        if (index === 0) {
+            conteudo += `Após a analise da Equipe STAFF o player <@${p.id}> receberá a punição de ${punicaoTexto} ${textoMotivo}:\n\n${motivos}\n\n`;
+        } else if (index === players.length - 1) {
+            conteudo += `E o player <@${p.id}> receberá a punição de ${punicaoTexto} ${textoMotivo}:\n\n${motivos}\n\n`;
+        } else {
+            conteudo += `Também o player <@${p.id}> receberá a punição de ${punicaoTexto} ${textoMotivo}:\n\n${motivos}\n\n`;
+        }
+    });
+
+    conteudo += `Agradecemos ao player <@${reporterId}> pelo report e tenham um otimo RP.\n\n`;
+
+    // 2. Menções conjuntas para o aviso de 24h
+    const IDsParaMencionar = players.map(p => `<@${p.id}>`);
+    let mencaoFinal = "";
+    if (IDsParaMencionar.length === 1) {
+        mencaoFinal = IDsParaMencionar[0];
+    } else {
+        const ultimo = IDsParaMencionar.pop();
+        mencaoFinal = IDsParaMencionar.join(', ') + ' e ' + ultimo;
     }
+
+    const texto24h = players.length > 1 
+        ? "Vocês têm **24 horas** para se apresentarem" 
+        : "Você tem **24 horas** para se apresentar";
+
+    conteudo += `${mencaoFinal}, ${texto24h} no canal de suporte (<#1216847354590662787>) e receber as devidas orientações.\n\n`;
+
+    // 3. Seção de Agravo
+    if (players.length === 1) {
+        const p = players[0];
+        const pTexto = p.punishments.length > 0 ? p.punishments.join(', ') : "[PUNIÇÃO]";
+        conteudo += `Caso não compareça dentro do prazo informado, sua punição de ${pTexto} poderá agravar para ${p.aggravated} sem chances de revogação.`;
+    } else {
+        conteudo += `Caso não compareçam dentro do prazo informado, as punições poderão ser agravadas:\n`;
+        players.forEach(p => {
+            const pTexto = p.punishments.length > 0 ? p.punishments.join(', ') : "[PUNIÇÃO]";
+            conteudo += `- <@${p.id}>: de ${pTexto} para ${p.aggravated}\n`;
+        });
+        conteudo += `Sem chances de revogação.`;
+    }
+
+    conteudo += `\n\nApós a ciência peço que marquem com ":1604_certified_green: "`;
+
+    selecionarMensagem("DESFECHO", conteudo);
 }
 
 function atualizarMensagemIntimacao() {
@@ -350,6 +798,11 @@ $(document).ready(() => {
         'cursor': 'pointer',
         'font-size': '15px',
         'appearance': 'none',
+        '-webkit-appearance': 'none',
+        'background-image': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E")',
+        'background-repeat': 'no-repeat',
+        'background-position': 'right 15px center',
+        'padding-right': '40px',
         'text-align': 'left',
         'transition': 'all 0.3s'
     }).on('focus', function() {
@@ -439,24 +892,13 @@ $(document).ready(() => {
             $(this).attr('onclick', `selecionarMensagem('INFLUENCIADOR', '${msg}')`);
         }
 
-        // Configura o modelo de Reembolso diretamente no botão da tela inicial
-        if (txt === "REEMBOLSO") {
-            const msg = 'Olá prezado(a) {{player}}, tudo bom?\\n\\nPeço que aguarde, em breve vamos lhe enviar todas as informações sobre o método de reembolso.\\n\\nAté lá, manteremos o ticket aberto.\\n\\nAgradecemos pela sua compreensão e paciência!\\n\\nObs.: Não é necessário marcar novamente nenhum STAFF\\n\\n<@&1098702235757711440>';
-            $(this).attr('onclick', `selecionarMensagem('REEMBOLSO', '${msg}')`);
-        }
-
-        // Altera o texto do botão de cópia para o novo padrão solicitado
-        if (txt === "COPIAR PARA O DISCORD") {
-            $(this).text("COPIAR MENSAGEM");
-        }
-
         // Renomeia o botão de Solicitar Retorno e configura a sessão
         if (txt.includes("SOLICITAR RETORNO") || txt === "RETORNO") {
             $(this).text("RETORNO");
             $(this).attr('onclick', 'toggleSubButtons(this)');
         }
 
-        if (txt.includes("PASSAGEM") || txt.includes("ENCERRAMENTO") || txt.includes("INÍCIO") || txt.includes("VINDAS") || txt.includes("INICIAL") || txt.includes("INTIMAÇÃO") || txt.includes("RETORNO")) {
+        if (txt.includes("PASSAGEM") || txt.includes("ENCERRAMENTO") || txt.includes("INÍCIO") || txt.includes("VINDAS") || txt.includes("INICIAL") || txt.includes("INTIMAÇÃO") || txt.includes("RETORNO") || txt.includes("SOLICITAR") || txt.includes("REEMBOLSO")) {
             $(this).attr('onclick', 'toggleSubButtons(this)');
         }
     });

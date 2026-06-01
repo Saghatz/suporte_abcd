@@ -169,6 +169,12 @@ button {
 
 #staff-panel {
     overflow-y: auto;
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#staff-panel::-webkit-scrollbar {
+    display: none; /* Chrome, Safari e Opera */
 }
 
 #discord_id {
@@ -414,4 +420,27 @@ button {
                -1px 1px 0px #000,
                 1px -1px 0px #000,
                 1px 0px 0px #000;
+}
+
+/* Esconder barra de rolagem da grade de regras */
+.rules-grid {
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.rules-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari e Opera */
+}
+
+/* Animação de Feedback para Ações */
+@keyframes btn-pulse-feedback {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.btn-action-success {
+    animation: btn-pulse-feedback 0.4s ease-out;
+    background-color: #2ecc71 !important; /* Verde Sucesso */
+    color: #fff !important;
+    border-color: #27ae60 !important;
 }
