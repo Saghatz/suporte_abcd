@@ -180,11 +180,11 @@ function toggleSubButtons(btn) {
         const msgPassagem = "Estou acionando o STAFF responsável por este tipo de atendimento. Por favor, aguarde.\\n\\nObs.: Não é necessário marcar outro membro da STAFF novamente.\\n\\n";
         content += `
             <div class="staff-grid" style="justify-content: flex-start;">
-                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&1098702235757711440>')">CMO / COO</button>
-                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&826569114620657719>')">DIRETOR</button>
-                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&758007837958865046>')">ADMINISTRADOR</button>
-                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&827425662801018920>')">MODERADOR</button>
-                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&827425658765574155>')">SUPORTE</button>
+                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&${DISCORD_IDS.roles['cmo']}>')">CMO / COO</button>
+                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&${DISCORD_IDS.roles['diretor']}>')">DIRETOR</button>
+                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&${DISCORD_IDS.roles['administrador']}>')">ADMINISTRADOR</button>
+                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&${DISCORD_IDS.roles['moderador']}>')">MODERADOR</button>
+                <button class="btn-staff" onclick="selecionarMensagem('PASSAGEM', '${msgPassagem}<@&${DISCORD_IDS.roles['suporte']}>')">SUPORTE</button>
             </div>`;
     } else if (menuTitle.includes("INÍCIO") || menuTitle.includes("VINDAS")) {
         $('#obs').hide();
@@ -386,7 +386,7 @@ function atualizarPreviewSolicitacao(tipo) {
         case 'REEMBOLSO':
             if (discordIdInput || playerId) {
                 const playerMencao = discordIdInput ? `<@${discordIdInput}>` : "";
-                const msgReembolso = `Olá prezado(a) ${playerMencao}, tudo bom?\n\nPeço que aguarde, em breve vamos lhe enviar todas as informações sobre o método de reembolso.\n\nAté lá, manteremos o ticket aberto.\n\nAgradecemos pela sua compreensão e paciência!\n\nObs.: Não é necessário marcar novamente nenhum STAFF\n\n<@&1098702235757711440>`;
+                const msgReembolso = `Olá prezado(a) ${playerMencao}, tudo bom?\n\nPeço que aguarde, em breve vamos lhe enviar todas as informações sobre o método de reembolso.\n\nAté lá, manteremos o ticket aberto.\n\nAgradecemos pela sua compreensão e paciência!\n\nObs.: Não é necessário marcar novamente nenhum STAFF\n\n<@&${DISCORD_IDS.roles['cmo']}>`;
                 $('#preview-text').val(msgReembolso);
             } else {
                 $('#preview-text').val('');
@@ -411,7 +411,7 @@ function atualizarPreviewSolicitacao(tipo) {
                 tagsTexto = tempTags.join(', ') + ' e ' + ultima;
             }
 
-            const msgTag = `<@1510791816423936093>, Por gentileza setar o cargo ${tagsTexto} no player ${mentionPlayer}.`;
+            const msgTag = `<@&${DISCORD_IDS.roles['administrador']}>, Por gentileza setar o cargo ${tagsTexto} no player ${mentionPlayer}.`;
             // Só mostra a tag se houver algo informado, senão limpa
             if (!discordIdInput && tags.length === 0 && !customRoleId) {
                 $('#preview-text').val('');
