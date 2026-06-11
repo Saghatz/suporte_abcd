@@ -23,54 +23,55 @@ const DISCORD_IDS = {
 
 // Regras da Cidade (conforme regras_abcd.txt - Adicione ou edite aqui)
 const CITY_RULES = {
-    "RDM": "Random Deathmatch - Matar ou agredir sem motivo ou contexto de RP.",
-    "VDM": "Vehicle Deathmatch - Usar veículo como arma para atropelar ou matar.",
-    "COMBAT LOG": "Deslogar para evitar situações desfavoráveis, prisões ou mortes.",
-    "POWER GAMING": "Ações impossíveis na vida real ou abuso da física (ex: subir morro com carro baixo).",
-    "META GAMING": "Uso de info OOC no IC ou uso indevido do /ID.",
-    "FEAR RP": "Amor à vida - Não valorizar a própria vida em situações de rendição ou risco.",
-    "ZONA SEGURA (SAFE)": "Prática de crimes, agressões ou uso de máscaras em Áreas Neutras.",
-    "FORÇAR RP": "Obrigar outro player a um RP indesejado ou provocar sem contexto ilícito.",
-    "DARK RP": "RP pesado envolvendo assédio, estupro, racismo, xenofobia, homofobia ou constrangimento grave.",
-    "REVENGE KILL": "Vingança pela própria morte/desmaio.",
+    "ABUSO DE ANIMAÇÕES": "Uso de binds, /bvida ou animações para cancelar ações ou vantagem em combate.",
     "ABUSO DE BUGS": "Uso de glitches, macros ou falhas do sistema para vantagem.",
-    "CAIXA 2": "Comércio de itens, contas ou moedas por dinheiro real (OOC).",
-    "JOB BAIT": "Enganar sobre serviços ou empregos legais para atrair vítimas.",
-    "LOOT INDEVIDO": "Saquear policiais ou civis aleatórios saquerem envolvidos em ações de banco/lojinha.",
-    "MODS DE VANTAGEM": "Uso de Citizen, remoção de props ou sons modificados para vantagem.",
-    "RECUSA DE RP": "Recusar colaborar com procedimentos médicos ou policiais obrigatórios.",
-    "QUEBRA DE IMERSÃO": "Uso de termos OOC (prefeitura, deuses, bíblia) dentro do jogo.",
-    "DISCRIMINAÇÃO": "Preconceito, racismo, homofobia ou qualquer discurso de ódio.",
-    "ASSALTO A TRABALHADOR": "Proibido assaltar Médicos, Mecânicos ou veículos de emprego legal.",
-    "LIMITE DE REFÉNS": "A quantidade máxima permitida de reféns será 8.",
     "AGREDIR EM SERVIÇO": "Proibido agredir ou sequestrar profissionais de serviço (SAMU/PM/MEC).",
+    "ALIANÇA PROIBIDA": "União entre facções independentes ou líderes sem autorização.",
+    "ARMA PESADA NA CIDADE": "Uso de SMG/Fuzil abaixo da linha vermelha (exceto favela/ação).",
+    "ASSALTO A TRABALHADOR": "Proibido assaltar Médicos, Mecânicos ou veículos de emprego legal.",
+    "ATIRAR EM PATRULHA": "Disparar contra viaturas que realizam apenas patrulhamento preventivo.",
+    "BLOQUEIO DE PORTAS": "Obstruir entradas de lojas ou bancos de forma artificial em ações.",
+    "BOM SENSO": "Agir de forma ilógica, incoerente, irrealista ou contrária à proposta do servidor, prejudicando a imersão, o desenvolvimento do RP e a diversão coletiva, bem como abusar de brechas, mecânicas, falhas, limitações ou da boa-fé de outros jogadores para obter vantagem própria ou para seu grupo.",
+    "CAIXA 2": "Comércio de itens, contas ou moedas por dinheiro real (OOC).",
+    "CARREGAR PM P/ ÁREA VERMELHA": "Levar policiais para favelas com intuito exclusivo de saque.",
+    "COMBAT LOG": "Deslogar para evitar situações desfavoráveis, prisões ou mortes.",
+    "COPBAIT": "Provocar a polícia sem contexto ilícito (dar drift, empinar na frente da VTR).",
+    "DESCE E QUEBRA": "Desembarcar atirando imediatamente sem priorizar a fuga limpa.",
+    "DESRESPEITO HIERÁRQUICO": "Desobediência a ordens de patentes superiores no legal.",
+    "DISCRIMINAÇÃO": "Preconceito, racismo, homofobia ou qualquer discurso de ódio.",
+    "DISPARO DE BLINDADO": "Proibido atirar de dentro de veículos blindados.",
+    "DIVULGAÇÃO": "Aliciamento ou menção a outros servidores de RP.",
+    "EXCESSO DE MEMBROS": "Exceder o limite de integrantes setados (60 Facção / 40 Rua).",
+    "FALTA DE AMOR À VIDA": "Desafiar sequestradores, fazer dancinhas ou deboche estando rendido.",
+    "FEAR RP": "Amor à vida - Não valorizar a própria vida em situações de rendição ou risco.",
+    "FLAMING": "RP pesado envolvendo vilipêndio de cadáver, assédio, estupro, racismo, xenofobia, homofobia ou qualquer forma de constrangimento grave.",
+    "FORÇAR RP": "Obrigar outro player a um RP indesejado ou provocar sem contexto ilícito.",
+    "FUGA PARA RESIDÊNCIA": "Entrar em casas privadas para fugir da polícia (Power Gaming).",
+    "GOLPES E FRAUDES": "Proibido aplicar qualquer roleplay de golpe, fraude ou enganação intencional.",
+    "INVASÃO DE BASE POLICIAL": "Invasão de DP ou Batalhão sem planejamento ou motivo sólido.",
+    "JOB BAIT": "Enganar sobre serviços ou empregos legais para atrair vítimas.",
+    "LIMITE DE REFÉNS": "A quantidade máxima permitida de reféns será 8.",
+    "LOOT INDEVIDO": "Saquear policiais ou civis aleatórios saquerem envolvidos em ações de banco/lojinha.",
+    "META GAMING": "Uso de info OOC no IC ou uso indevido do /ID.",
+    "MODS DE VANTAGEM": "Uso de Citizen, remoção de props ou sons modificados para vantagem.",
+    "NÃO SE RENDER (PERSEGUIÇÃO)": "Não se render após capotamento ou queda grave de moto em fuga.",
+    "NEGATIVA DE IDENTIFICAÇÃO": "Policial negar informar QRA ou patente em abordagem.",
+    "NEGOCIAR ARMAS POR REFÉM": "Proibido exigir armamento ou munição em troca de reféns.",
+    "POLUIÇÃO SONORA": "Uso de música ou barulho excessivo em Hospital ou Delegacia.",
+    "POWER GAMING": "Ações impossíveis na vida real ou abuso da física (ex: subir morro com carro baixo).",
+    "QUEBRA DE IMERSÃO": "Uso de termos OOC (prefeitura, deuses, bíblia) dentro do jogo.",
+    "QUEBRA REGRA DE MORTE": "Voltar na ação ou usar informações obtidas antes de desmaiar (PD).",
+    "RDM": "Random Deathmatch - Matar ou agredir sem motivo ou contexto de RP.",
     "REANIMAR P/ ROUBAR": "Proibido reanimar alguém para obrigar a passar info ou roubar.",
     "RECONHECIMENTO INDEVIDO": "Reconhecer player mascarado sem o uso de alterador de voz.",
-    "ALIANÇA PROIBIDA": "União entre facções independentes ou líderes sem autorização.",
-    "GOLPES E FRAUDES": "Proibido aplicar qualquer roleplay de golpe, fraude ou enganação intencional.",
-    "POLUIÇÃO SONORA": "Uso de música ou barulho excessivo em Hospital ou Delegacia.",
-    "DIVULGAÇÃO": "Aliciamento ou menção a outros servidores de RP.",
-    "NÃO SE RENDER (PERSEGUIÇÃO)": "Não se render após capotamento ou queda grave de moto em fuga.",
-    "DISPARO DE BLINDADO": "Proibido atirar de dentro de veículos blindados.",
+    "RECUSA DE RP": "Recusar colaborar com procedimentos médicos ou policiais obrigatórios.",
+    "REVENGE KILL": "Vingança pela própria morte/desmaio.",
     "REVISTA EM DESMAIADO": "Revistar pessoas nocauteadas na rua sem contexto de ação envolvida.",
-    "QUEBRA REGRA DE MORTE": "Voltar na ação ou usar informações obtidas antes de desmaiar (PD).",
-    "FUGA PARA RESIDÊNCIA": "Entrar em casas privadas para fugir da polícia (Power Gaming).",
-    "INVASÃO DE BASE POLICIAL": "Invasão de DP ou Batalhão sem planejamento ou motivo sólido.",
-    "BLOQUEIO DE PORTAS": "Obstruir entradas de lojas ou bancos de forma artificial em ações.",
-    "DESCE E QUEBRA": "Desembarcar atirando imediatamente sem priorizar a fuga limpa.",
-    "ARMA PESADA NA CIDADE": "Uso de SMG/Fuzil abaixo da linha vermelha (exceto favela/ação).",
+    "SAIR DO RP": "Abandonar a situação ou 'congelar' o RP sem autorização da Staff.",
     "SEQUESTRO COM MOTO": "Proibido realizar sequestros utilizando motocicletas.",
-    "NEGOCIAR ARMAS POR REFÉM": "Proibido exigir armamento ou munição em troca de reféns.",
-    "EXCESSO DE MEMBROS": "Exceder o limite de integrantes setados (60 Facção / 40 Rua).",
-    "CARREGAR PM P/ ÁREA VERMELHA": "Levar policiais para favelas com intuito exclusivo de saque.",
-    "ATIRAR EM PATRULHA": "Disparar contra viaturas que realizam apenas patrulhamento preventivo.",
-    "ABUSO DE ANIMAÇÕES": "Uso de binds, /bvida ou animações para cancelar ações ou vantagem em combate.",
-    "DESRESPEITO HIERÁRQUICO": "Desobediência a ordens de patentes superiores no legal.",
-    "NEGATIVA DE IDENTIFICAÇÃO": "Policial negar informar QRA ou patente em abordagem.",
-    "COPBAIT": "Provocar a polícia sem contexto ilícito (dar drift, empinar na frente da VTR).",
-    "FALTA DE AMOR À VIDA": "Desafiar sequestradores, fazer dancinhas ou deboche estando rendido.",
     "SUICÍDIO RP": "Realizar qualquer roleplay que remeta a suicídio.",
-    "SAIR DO RP": "Abandonar a situação ou 'congelar' o RP sem autorização da Staff."
+    "VDM": "Vehicle Deathmatch - Usar veículo como arma para atropelar ou matar.",
+    "ZONA SEGURA (SAFE)": "Prática de crimes, agressões ou uso de máscaras em Áreas Neutras."
 };
 
 function getDataExpiracao() {
@@ -876,7 +877,7 @@ $(document).ready(() => {
 
         // Configura o modelo de Batalhão diretamente no botão da tela inicial
         if (txt === "BATALHÃO" || txt === "BATALHAO") {
-            const msg = 'Olá prezado(a) {{player}}, tudo bom?\\n\\n# Requisitos para assumir um Batalhão do ABCD\\n\`\`\`ansi\\n[1;2m[1;31m[1;34m➝ O comandante do batalhão precisa ser +18 ;\\n➝ No mínimo de 15 pessoas para assumir ; \\n➝ Apresentar um projeto de como pretende realizar o RP com a sua guarnição; \\n➝ Hierarquia já precisa estar pronta  (com todas as patentes);\\n➝ É necessário que todos os componentes de sua guarnição estejam liberados no momento da entrega para a realização de alinhamentos.[0m[1;31m[0m[0m\\n\`\`\`\\nSe você possui todos os requisitos, favor **confirmar** com um **SIM** e informe qual batalhão você tem interesse. Você pode verificar quais estão livres no canal <#1218715282806411344>.\\n\\n<@&826569114620657719>\\n\\nMencionei também o **STAFF** responsável pelas **ENTREGAS DOS BATALHÕES**, peço que aguarde o retorno.\\n\\nObs.: Não é necessário mencionar novamente nenhum outro **STAFF**.';
+            const msg = 'Olá prezado(a) {{player}}, tudo bom?\\n\\n# Requisitos para assumir um Batalhão do ABCD\\n\`\`\`ansi\\n[1;2m[1;31m[1;34m➝ O comandante do batalhão precisa ser +18 ;\\n➝ No mínimo de 15 pessoas para assumir ; \\n➝ Apresentar um projeto de como pretende realizar o RP com a sua guarnição; \\n➝ Hierarquia já precisa estar pronta  (com todas as patentes);\\n➝ É necessário que todos os componentes de sua guarnição estejam liberados no momento da entrega para a realização de alinhamentos.[0m[1;31m[0m[0m\\n\`\`\`\\nSe você possui todos os requisitos, favor **confirmar** com um **SIM** e informe qual batalhão você tem interesse. Você pode verificar quais estão livres no canal <#1218715282806411344>.\\n\\n<@&826569114620657719> <@961304767324385300>\\n\\nMencionei também os **STAFFs** responsável pelas **ENTREGAS DOS BATALHÕES**, peço que aguarde o retorno.\\n\\nObs.: Não é necessário mencionar novamente nenhum outro **STAFF**.';
             $(this).attr('onclick', `selecionarMensagem('BATALHÃO', '${msg}')`);
         }
 
@@ -888,7 +889,7 @@ $(document).ready(() => {
 
         // Configura o modelo de Influenciador diretamente no botão da tela inicial
         if (txt === "COMO SER INFLUENCIADOR") {
-            const msg = 'Olá prezado(a) {{player}}, tudo bom?\\n\\nPara ser um **INFLUENCIADOR ABCD**, basta que você entre em nosso **DISCORD** dos **INFLUENCERS DO ABCD** e abra um ticket solicitando a sua avaliação. \\n\\nhttps://discord.gg/MY99W5BzAT\\n\\nBoa sorte!';
+            const msg = 'Olá prezado(a) {{player}}, tudo bom?\\n\\nPara ser um **INFLUENCIADOR ABCD**, basta que você entre em nosso **DISCORD** dos **INFLUENCERS DO ABCD** e abra um ticket solicitando a sua avaliação. \\n\\n<#960361101164417134>\\n\\nBoa sorte!';
             $(this).attr('onclick', `selecionarMensagem('INFLUENCIADOR', '${msg}')`);
         }
 
