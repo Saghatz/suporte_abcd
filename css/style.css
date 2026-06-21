@@ -211,6 +211,12 @@ button {
     resize: none;
     margin-top: 15px;
     box-sizing: border-box;
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.preview-panel textarea::-webkit-scrollbar {
+    display: none; /* Chrome, Safari e Opera */
 }
 
 .btn-copy {
@@ -312,10 +318,21 @@ button {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
+    background: #fff;
+    color: #000;
     box-sizing: border-box;
     font-size: 12px;
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.punish-select::-webkit-scrollbar {
+    display: none; /* Chrome, Safari e Opera */
+}
+
+.punish-select option {
+    background: #fff;
+    color: #000;
 }
 
 .punish-row {
@@ -444,3 +461,4 @@ button {
     color: #fff !important;
     border-color: #27ae60 !important;
 }
+

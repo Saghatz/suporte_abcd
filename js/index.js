@@ -249,6 +249,22 @@ function toggleSubButtons(btn) {
                     <input type="text" id="return_time" class="punish-id-field" placeholder="Informe apenas a hora" oninput="atualizarMensagemRetorno()" style="width: 100%;">
                 </div>
             </div>`;
+    } else if (menuTitle.includes("TERMOS")) {
+        $('#obs').hide();
+        content += `
+            <div class="staff-grid" style="justify-content: flex-start;">
+                <button class="btn-staff" onclick="selecionarTermoBatalhao()">BATALHÃO</button>
+                <button class="btn-staff" onclick="selecionarTermoFavela()" style="flex-direction: column;">
+                    <span>FAVELA</span>
+                    <span style="font-size: 9px; opacity: 0.7;">Sem Donate</span>
+                </button>
+            </div>
+            <div id="termos-container" style="margin-top: 15px; display: none;">
+                <label style="color: #94a3b8; font-size: 11px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 600;" id="termos-label"></label>
+                <select id="termos-dropdown" class="punish-select" onchange="carregarTermo()" style="width: 100%; appearance: auto;">
+                    <option value="">-- Selecione uma opção --</option>
+                </select>
+            </div>`;
     } else if (menuTitle.includes("SOLICITAR")) {
         $('#obs').hide();
         content += `
@@ -1024,3 +1040,300 @@ $(document).ready(() => {
         $('#user_role').focus(); // Foca no seletor de cargo ao abrir
     }
 });
+
+// LISTA DE BATALHÕES EM ORDEM ALFABÉTICA
+const BATALHAES_LISTA = [
+    "1º BPChq ANCHIETA - PMESP",
+    "1º BPChq ROTA - PMESP",
+    "1º BPRv - PMESP",
+    "1º BPTran | 6ºBPM - PMESP",
+    "1º PEL. FORÇA TÁTICA - PMESP",
+    "2º BPChq ANCHIETA - PMESP",
+    "2º PEL. FORÇA TÁTICA | 6ºBPM - PMESP",
+    "3º BPChq HUMAITÁ - PMESP",
+    "4º BPChq COE - PMESP",
+    "4º BPChq COE | GATE - PMESP",
+    "4º BPChq GATE - PMESP",
+    "6º CAEP - PMESP",
+    "7º BAEP - PMESP",
+    "18ºCBM",
+    "CAvPM | 6ºBPM - PMESP",
+    "DELEGACIA DE POLÍCIA CIVIL - PCESP",
+    "DOPE - PCESP",
+    "EXÉRCITO BRASILEIRO",
+    "POLÍCIA FEDERAL",
+    "POLÍCIA RODOVIÁRIA FEDERAL",
+    "SAP"
+];
+
+let currentTermoType = null;
+
+// Nomes femininos que usam artigos "a", "da"
+const NOMES_FEMININOS = [
+    "DELEGACIA DE POLÍCIA CIVIL - PCESP",
+    "DOPE - PCESP",
+    "POLÍCIA FEDERAL",
+    "POLÍCIA RODOVIÁRIA FEDERAL"
+];
+
+// Lista de Favelas
+const FAVELAS_LISTA = [
+    "AREIÃO",
+    "CALUX",
+    "COCA",
+    "DR",
+    "HELIPA",
+    "MONTANHÃO",
+    "NAVAL",
+    "SÃO PEDRO"
+];
+
+// Lista de Empresas
+const EMPRESAS_LISTA = [
+    "MODELO GERAL",
+    "REI DO GRAVE"
+];
+
+function ehFeminino(nome) {
+    return NOMES_FEMININOS.includes(nome);
+}
+
+function selecionarTermoBatalhao() {
+    currentTermoType = 'batalhao';
+    $('#termos-label').text('Selecione o Batalhão ou Delegacia:');
+    const dropdown = $('#termos-dropdown');
+    dropdown.html('<option value="">-- Selecione uma opção --</option><option value="geral">MODELO GERAL</option>');
+    
+    BATALHAES_LISTA.forEach(batalha => {
+        dropdown.append(`<option value="${batalha}">${batalha}</option>`);
+    });
+    
+    $('#termos-container').show();
+}
+
+function selecionarTermoFavela() {
+    currentTermoType = 'favela';
+    $('#termos-label').text('Selecione a Favela:');
+    const dropdown = $('#termos-dropdown');
+    dropdown.html('<option value="">-- Selecione uma opção --</option><option value="geral">MODELO GERAL</option>');
+    
+    FAVELAS_LISTA.forEach(favela => {
+        dropdown.append(`<option value="${favela}">${favela}</option>`);
+    });
+    
+    $('#termos-container').show();
+}
+
+function carregarTermo() {
+    if (currentTermoType === 'batalhao') {
+        const batalha = $('#termos-dropdown').val();
+        if (!batalha) return;
+        const termo = gerarTermoBatalhao(batalha);
+        selecionarMensagem('TERMO DE RESPONSABILIDADE', termo);
+    } else if (currentTermoType === 'favela') {
+        const favela = $('#termos-dropdown').val();
+        if (!favela) return;
+        const termo = gerarTermoFavela(favela);
+        selecionarMensagem('TERMO DE RESPONSABILIDADE', termo);
+    }
+}
+
+function gerarTermoBatalhao(batalha) {
+    // Modelo geral sem mencionar organização específica
+    if (batalha === "geral") {
+        const termo = `\`\`\`TERMO DE RESPONSABILIDADE\`\`\`
+
+Ao receber uma organização no servidor ABCD, você declara estar ciente de que o espaço é apenas cedido **temporariamente até o final desta season**, sendo de inteira responsabilidade sua, de sua liderança e seus membros em manter o bom uso da área conforme as regras e diretrizes do Servidor ABCD Roleplay.
+
+📌 Toda a gestão da organização deve ser feita de forma organizada através do nosso Discord oficial da SSP (Secretaria de Segurança Pública).
+
+⚠️ Quebra de regras, desorganização, falta de conduta, inatividade de líderes ou membros, uso da organização de forma prejudicial ao ambiente do RP (legal ou ilegal), entre outras condutas indevidas ou descumprimento do <#1370134363592724560>, poderão acarretar na perda **IMEDIATA** da organização, sem aviso prévio.
+
+📍 Dedicação Exclusiva ao **ABCD PAULISTA**
+
+Jogadores que ocupam cargos de comando, liderança ou responsabilidade direta, como:
+
+• Comandante de batalhão  
+• Liderança de corporação policial
+
+**Não poderão jogar em outra cidade**, sendo permitido atuar exclusivamente no **ABCD PAULISTA**.
+
+• Ao assumir uma posição de responsabilidade, o jogador deve dedicar 100% de seu tempo, atenção e empenho às suas funções dentro do servidor.
+
+🎯 O objetivo é **manter a organização ativa**, com presença constante de players, respeitando o RP e contribuindo para o bom andamento do servidor.
+
+🎭 O RP do ILEGAL no ABCD tem suas particularidades e identidade própria, inspirado no crime organizado real de São Paulo, mas com ajustes e adequações pensadas para seguir a visão do servidor.
+
+❌ Se você procura um servidor para Treta ou fazer PVP, o ABCD **não é o lugar para você**.
+
+✅ Você receberá todo suporte necessário da equipe responsável pelo RP de Polícia (DANTAS e/ou Saghatt) e da base da PMESP (6ºBPM/M) para desenvolver o seu papel e garantir que o espaço funcione dentro das normas.
+
+---
+
+Caso aceite os termos acima, responda com:
+**ACEITO**`;
+        return termo;
+    }
+
+    // Exceção para 18ºCBM (bombeiro, não polícia)
+    if (batalha === "18ºCBM") {
+        const termo = `\`\`\`TERMO DE RESPONSABILIDADE\`\`\`
+
+Ao receber o 18ºCBM no servidor ABCD, você declara estar ciente de que o espaço é apenas cedido **temporariamente até o final desta season**, sendo de inteira responsabilidade sua, de sua liderança e seus membros em manter o bom uso da área conforme as regras e diretrizes do Servidor ABCD Roleplay.
+
+📌 Toda a gestão **do 18ºCBM** deve ser feita de forma organizada através do nosso Discord oficial da SSP (Secretaria de Segurança Pública).
+
+⚠️ Quebra de regras, desorganização, falta de conduta, inatividade de líderes ou membros, uso do batalhão de forma prejudicial ao ambiente do RP (legal ou ilegal), entre outras condutas indevidas ou descumprimento do <#1370134363592724560>, poderão acarretar na perda **IMEDIATA** do 18ºCBM, sem aviso prévio.
+
+📍 Dedicação Exclusiva ao **ABCD PAULISTA**
+
+Jogadores que ocupam cargos de comando, liderança ou responsabilidade direta, como:
+
+• Comandante de batalhão  
+• Liderança de corporação policial
+
+**Não poderão jogar em outra cidade**, sendo permitido atuar exclusivamente no **ABCD PAULISTA**.
+
+• Ao assumir uma posição de responsabilidade, o jogador deve dedicar 100% de seu tempo, atenção e empenho às suas funções dentro do servidor.
+
+🎯 O objetivo é **manter o batalhão ativo**, com presença constante de players, respeitando o RP e contribuindo para o bom andamento do servidor.
+
+🎭 O RP do ILEGAL no ABCD tem suas particularidades e identidade própria, inspirado no crime organizado real de São Paulo, mas com ajustes e adequações pensadas para seguir a visão do servidor.
+
+❌ Se você procura um servidor para Treta ou fazer PVP, o ABCD **não é o lugar para você**.
+
+✅ Você receberá todo suporte necessário da equipe responsável pelo RP de Polícia (DANTAS e/ou Saghatt) e da base da PMESP (6ºBPM/M) para desenvolver o seu papel e garantir que o espaço funcione dentro das normas.
+
+---
+
+Caso aceite os termos acima, responda com:
+**ACEITO**`;
+        return termo;
+    }
+
+    // Exceção para SAP (sem BATALHÃO ou DELEGACIA)
+    if (batalha === "SAP") {
+        const termo = `\`\`\`TERMO DE RESPONSABILIDADE\`\`\`
+
+Ao receber o SAP no servidor ABCD, você declara estar ciente de que o espaço é apenas cedido **temporariamente até o final desta season**, sendo de inteira responsabilidade sua, de sua liderança e seus membros em manter o bom uso da área conforme as regras e diretrizes do Servidor ABCD Roleplay.
+
+📌 Toda a gestão **do SAP** deve ser feita de forma organizada através do nosso Discord oficial da SSP (Secretaria de Segurança Pública).
+
+⚠️ Quebra de regras, desorganização, falta de conduta, inatividade de líderes ou membros, uso do batalhão de forma prejudicial ao ambiente do RP (legal ou ilegal), entre outras condutas indevidas ou descumprimento do <#1370134363592724560>, poderão acarretar na perda **IMEDIATA** do SAP, sem aviso prévio.
+
+📍 Dedicação Exclusiva ao **ABCD PAULISTA**
+
+Jogadores que ocupam cargos de comando, liderança ou responsabilidade direta, como:
+
+• Comandante de batalhão  
+• Liderança de corporação policial
+
+**Não poderão jogar em outra cidade**, sendo permitido atuar exclusivamente no **ABCD PAULISTA**.
+
+• Ao assumir uma posição de responsabilidade, o jogador deve dedicar 100% de seu tempo, atenção e empenho às suas funções dentro do servidor.
+
+🎯 O objetivo é **manter o batalhão ativo**, com presença constante de players, respeitando o RP e contribuindo para o bom andamento do servidor.
+
+🎭 O RP do ILEGAL no ABCD tem suas particularidades e identidade própria, inspirado no crime organizado real de São Paulo, mas com ajustes e adequações pensadas para seguir a visão do servidor.
+
+❌ Se você procura um servidor para Treta ou fazer PVP, o ABCD **não é o lugar para você**.
+
+✅ Você receberá todo suporte necessário da equipe responsável pelo RP de Polícia (DANTAS e/ou Saghatt) e da base da PMESP (6ºBPM/M) para desenvolver o seu papel e garantir que o espaço funcione dentro das normas.
+
+---
+
+Caso aceite os termos acima, responda com:
+**ACEITO**`;
+        return termo;
+    }
+    
+    // Verifica se é feminino ou masculino
+    const feminino = ehFeminino(batalha);
+    const artigo = feminino ? "a" : "o";
+    const gestao = feminino ? "da" : "do";
+    const tipo = feminino ? "DELEGACIA" : "BATALHÃO";
+    
+    const termo = `\`\`\`TERMO DE RESPONSABILIDADE\`\`\`
+
+Ao receber ${artigo} ${batalha} no servidor ABCD, você declara estar ciente de que o espaço é apenas cedido **temporariamente até o final desta season**, sendo de inteira responsabilidade sua, de sua liderança e seus membros em manter o bom uso da área conforme as regras e diretrizes do Servidor ABCD Roleplay.
+
+📌 Toda a gestão ${gestao} **${tipo}** ${batalha} deve ser feita de forma organizada através do nosso Discord oficial da SSP (Secretaria de Segurança Pública).
+
+⚠️ Quebra de regras, desorganização, falta de conduta, inatividade de líderes ou membros, uso do batalhão de forma prejudicial ao ambiente do RP (legal ou ilegal), entre outras condutas indevidas ou descumprimento do <#1370134363592724560>, poderão acarretar na perda **IMEDIATA** ${gestao} ${batalha}, sem aviso prévio.
+
+📍 Dedicação Exclusiva ao **ABCD PAULISTA**
+
+Jogadores que ocupam cargos de comando, liderança ou responsabilidade direta, como:
+
+• Comandante de batalhão  
+• Liderança de corporação policial
+
+**Não poderão jogar em outra cidade**, sendo permitido atuar exclusivamente no **ABCD PAULISTA**.
+
+• Ao assumir uma posição de responsabilidade, o jogador deve dedicar 100% de seu tempo, atenção e empenho às suas funções dentro do servidor.
+
+🎯 O objetivo é **manter o batalhão ativo**, com presença constante de players, respeitando o RP e contribuindo para o bom andamento do servidor.
+
+🎭 O RP do ILEGAL no ABCD tem suas particularidades e identidade própria, inspirado no crime organizado real de São Paulo, mas com ajustes e adequações pensadas para seguir a visão do servidor.
+
+❌ Se você procura um servidor para Treta ou fazer PVP, o ABCD **não é o lugar para você**.
+
+✅ Você receberá todo suporte necessário da equipe responsável pelo RP de Polícia (DANTAS e/ou Saghatt) e da base da PMESP (6ºBPM/M) para desenvolver o seu papel e garantir que o espaço funcione dentro das normas.
+
+---
+
+Caso aceite os termos acima, responda com:
+**ACEITO**`;
+
+    return termo;
+}
+
+function gerarTermoFavela(favela) {
+    // Modelo geral sem mencionar a favela específica
+    if (favela === "geral") {
+        const termo = `\`\`\`TERMO DE RESPONSABILIDADE\`\`\`
+
+Ao receber uma favela no servidor ABCD, você declara estar ciente de que o espaço é apenas cedido **temporariamente até o final desta season**, sendo de inteira responsabilidade sua, de sua liderança e seus membros manter o bom uso da área conforme as regras e diretrizes do Servidor ABCD Roleplay e ILEGAL do ABCD.
+
+📌 Toda a gestão da favela deve ser feita de forma organizada através do nosso Discord oficial do ILEGAL.
+
+⚠️ Quebra de regras, desorganização, falta de conduta, inatividade de líderes ou membros, uso da favela de forma prejudicial ao ambiente do RP (legal ou ilegal), entre outras condutas indevidas, poderão acarretar na perda **IMEDIATA** da favela, sem aviso prévio.
+
+🎯 *O objetivo é manter a favela ativa, com presença constante de players, respeitando o RP e contribuindo para o bom andamento do servidor.*
+
+🧠 O RP do ILEGAL no ABCD tem suas particularidades e identidade própria, inspirado no crime organizado real de São Paulo, mas com ajustes e adequações pensadas para seguir a visão do servidor.
+
+🚫 Aqui não existem tretas forçadas entre favelas, disputas sem sentido ou intrigas para gerar conflito por PVP. Esse tipo de conduta não será tolerado. Cada favela é vista como uma engrenagem de uma única organização criminosa que atua no estado de São Paulo.
+
+❌ *Se você procura um servidor para tretar entre favelas ou fazer PVP, o ABCD não é o lugar para você.*
+
+✅ Você receberá todo suporte necessário da equipe responsável (Sra. Cash) para desenvolver o seu papel e garantir que o espaço funcione dentro das normas.
+
+Caso aceite os termos acima, responda com:
+**ACEITO**`;
+        return termo;
+    }
+
+    const termo = `\`\`\`TERMO DE RESPONSABILIDADE\`\`\`
+
+Ao receber a favela ${favela} no servidor ABCD, você declara estar ciente de que o espaço é apenas cedido **temporariamente até o final desta season**, sendo de inteira responsabilidade sua, de sua liderança e seus membros manter o bom uso da área conforme as regras e diretrizes do Servidor ABCD Roleplay e ILEGAL do ABCD.
+
+📌 Toda a gestão da favela deve ser feita de forma organizada através do nosso Discord oficial do ILEGAL.
+
+⚠️ Quebra de regras, desorganização, falta de conduta, inatividade de líderes ou membros, uso da favela de forma prejudicial ao ambiente do RP (legal ou ilegal), entre outras condutas indevidas, poderão acarretar na perda **IMEDIATA** da favela, sem aviso prévio.
+
+🎯 *O objetivo é manter a favela ativa, com presença constante de players, respeitando o RP e contribuindo para o bom andamento do servidor.*
+
+🧠 O RP do ILEGAL no ABCD tem suas particularidades e identidade própria, inspirado no crime organizado real de São Paulo, mas com ajustes e adequações pensadas para seguir a visão do servidor.
+
+🚫 Aqui não existem tretas forçadas entre favelas, disputas sem sentido ou intrigas para gerar conflito por PVP. Esse tipo de conduta não será tolerado. Cada favela é vista como uma engrenagem de uma única organização criminosa que atua no estado de São Paulo.
+
+❌ *Se você procura um servidor para tretar entre favelas ou fazer PVP, o ABCD não é o lugar para você.*
+
+✅ Você receberá todo suporte necessário da equipe responsável (Sra. Cash) para desenvolver o seu papel e garantir que o espaço funcione dentro das normas.
+
+Caso aceite os termos acima, responda com:
+**ACEITO**`;
+
+    return termo;
+}
