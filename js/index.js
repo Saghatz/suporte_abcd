@@ -27,12 +27,18 @@ const CITY_RULES = {
     "ABUSO DE BUGS": "Uso de glitches, macros ou falhas do sistema para vantagem.",
     "AGREDIR EM SERVIÇO": "Proibido agredir ou sequestrar profissionais de serviço (SAMU/PM/MEC).",
     "ALIANÇA PROIBIDA": "União entre facções independentes ou líderes sem autorização.",
-    "ARMA PESADA NA CIDADE": "Uso de SMG/Fuzil abaixo da linha vermelha (exceto favela/ação).",
+    "ANTI JOGO": "Prejudicar intencionalmente a experiência de outros jogadores ou do servidor.",
+    "ANTI RP": "Ações sem sentido, sem contexto ou contrárias à proposta do servidor.",
+    "ARMAMENTO IRREGULAR": "Utilizar armamento não permitido pela regra específica da ação.",
     "ASSALTO A TRABALHADOR": "Proibido assaltar Médicos, Mecânicos ou veículos de emprego legal.",
     "ATIRAR EM PATRULHA": "Disparar contra viaturas que realizam apenas patrulhamento preventivo.",
+    "BAIT DE ÁREA VERMELHA": "Atrair jogadores para áreas de facção apenas para viabilizar loot ou eliminação.",
+    "BAIT DE SAFE": "Provocar ou atrair jogadores para dentro ou fora de Safe Zone visando obter vantagem.",
     "BLOQUEIO DE PORTAS": "Obstruir entradas de lojas ou bancos de forma artificial em ações.",
     "BOM SENSO": "Agir de forma ilógica, incoerente, irrealista ou contrária à proposta do servidor, prejudicando a imersão, o desenvolvimento do RP e a diversão coletiva, bem como abusar de brechas, mecânicas, falhas, limitações ou da boa-fé de outros jogadores para obter vantagem própria ou para seu grupo.",
+    "CALL EXTERNA": "Uso de comunicação externa ao servidor para compartilhar informações do RP, caracterizando Meta Gaming.",
     "CAIXA 2": "Comércio de itens, contas ou moedas por dinheiro real (OOC).",
+    "CAMPERAGEM": "Permanecer aguardando vítimas ou oportunidades de ação de forma abusiva.",
     "CARREGAR PM P/ ÁREA VERMELHA": "Levar policiais para favelas com intuito exclusivo de saque.",
     "COMBAT LOG": "Deslogar para evitar situações desfavoráveis, prisões ou mortes.",
     "COPBAIT": "Provocar a polícia sem contexto ilícito (dar drift, empinar na frente da VTR).",
@@ -41,14 +47,19 @@ const CITY_RULES = {
     "DISCRIMINAÇÃO": "Preconceito, racismo, homofobia ou qualquer discurso de ódio.",
     "DISPARO DE BLINDADO": "Proibido atirar de dentro de veículos blindados.",
     "DIVULGAÇÃO": "Aliciamento ou menção a outros servidores de RP.",
+    "EMOJI RP": "Utilizar emojis ou meios OOC para representar ações obrigatórias de RP.",
     "EXCESSO DE MEMBROS": "Exceder o limite de integrantes setados (60 Facção / 40 Rua).",
     "FALTA DE AMOR À VIDA": "Desafiar sequestradores, fazer dancinhas ou deboche estando rendido.",
     "FEAR RP": "Amor à vida - Não valorizar a própria vida em situações de rendição ou risco.",
     "FLAMING": "RP pesado envolvendo vilipêndio de cadáver, assédio, estupro, racismo, xenofobia, homofobia ou qualquer forma de constrangimento grave.",
-    "FORÇAR RP": "Obrigar outro player a um RP indesejado ou provocar sem contexto ilícito.",
+    "FORÇAR RP": "Obrigar outro jogador a aceitar ações, informações ou situações sem possibilidade de reação ou escolha dentro do RP.",
+    "FUGA AQUÁTICA ABUSIVA": "Utilizar rios, mar ou nado de forma abusiva para prolongar fugas sem possibilidade real.",
     "FUGA PARA RESIDÊNCIA": "Entrar em casas privadas para fugir da polícia (Power Gaming).",
     "GOLPES E FRAUDES": "Proibido aplicar qualquer roleplay de golpe, fraude ou enganação intencional.",
+    "HOSPITAL RP": "Obrigatório respeitar o RP médico durante atendimento ou internação.",
+    "INTERFERÊNCIA EM AÇÃO": "Participar ou influenciar ação da qual não faz parte.",
     "INVASÃO DE BASE POLICIAL": "Invasão de DP ou Batalhão sem planejamento ou motivo sólido.",
+    "INVASÃO DE SAFE": "Utilizar áreas seguras para escapar, ocultar-se ou obter vantagem em ações.",
     "JOB BAIT": "Enganar sobre serviços ou empregos legais para atrair vítimas.",
     "LIMITE DE REFÉNS": "A quantidade máxima permitida de reféns será 8.",
     "LOOT INDEVIDO": "Saquear policiais ou civis aleatórios saquerem envolvidos em ações de banco/lojinha.",
@@ -60,16 +71,24 @@ const CITY_RULES = {
     "POLUIÇÃO SONORA": "Uso de música ou barulho excessivo em Hospital ou Delegacia.",
     "POWER GAMING": "Ações impossíveis na vida real ou abuso da física (ex: subir morro com carro baixo).",
     "QUEBRA DE IMERSÃO": "Uso de termos OOC (prefeitura, deuses, bíblia) dentro do jogo.",
+    "QUEBRA DE NEGOCIAÇÃO": "Descumprir acordos firmados durante negociações de ações.",
+    "QUEBRA DE SIGILO POLICIAL": "Compartilhar informações restritas de operações ou investigações sem autorização.",
     "QUEBRA REGRA DE MORTE": "Voltar na ação ou usar informações obtidas antes de desmaiar (PD).",
     "RDM": "Random Deathmatch - Matar ou agredir sem motivo ou contexto de RP.",
+    "REAÇÃO À ABORDAGEM SAFE": "Reagir a abordagem policial em Safe Zone quando houver fundada suspeita permitida pela regra.",
     "REANIMAR P/ ROUBAR": "Proibido reanimar alguém para obrigar a passar info ou roubar.",
     "RECONHECIMENTO INDEVIDO": "Reconhecer player mascarado sem o uso de alterador de voz.",
-    "RECUSA DE RP": "Recusar colaborar com procedimentos médicos ou policiais obrigatórios.",
+    "RECUSA DE RP": "Negar ou dificultar injustificadamente o desenvolvimento de um RP válido.",
     "REVENGE KILL": "Vingança pela própria morte/desmaio.",
     "REVISTA EM DESMAIADO": "Revistar pessoas nocauteadas na rua sem contexto de ação envolvida.",
-    "SAIR DO RP": "Abandonar a situação ou 'congelar' o RP sem autorização da Staff.",
+    "SAIR DO RP": "Abandonar, interromper ou evitar uma situação ativa para fugir de suas consequências.",
     "SEQUESTRO COM MOTO": "Proibido realizar sequestros utilizando motocicletas.",
+    "SEQUESTRO SEM MOTIVAÇÃO": "Realizar sequestro sem objetivo criminoso ou contexto plausível.",
     "SUICÍDIO RP": "Realizar qualquer roleplay que remeta a suicídio.",
+    "TERCEIRA INTERVENÇÃO": "Interferir em ação já iniciada sem vínculo legítimo com os envolvidos.",
+    "USO INDEVIDO DE MÁSCARA": "Utilizar máscara em locais proibidos ou para burlar regras de identificação.",
+    "USO INDEVIDO DE STREAM": "Utilizar transmissões ao vivo para obter informações da ação.",
+    "VALORIZAÇÃO DE PERSONAGEM": "Manter coerência com a história, limitações e consequências do personagem.",
     "VDM": "Vehicle Deathmatch - Usar veículo como arma para atropelar ou matar.",
     "ZONA SEGURA (SAFE)": "Prática de crimes, agressões ou uso de máscaras em Áreas Neutras."
 };
@@ -175,6 +194,16 @@ function toggleSubButtons(btn) {
                 </div>
                 <button class="btn-staff" style="width: 100%; margin-top: 5px; background: #3498db;" onclick="adicionarInputPunicao()">+ ADICIONAR NOVO PLAYER</button>
                 <button class="btn-staff" style="width: 100%; margin-top: 5px; background: #e74c3c;" onclick="limparDesfexo()">LIMPAR TUDO</button>
+            </div>`;
+    } else if (menuTitle.includes("AGRAVANTE")) {
+        $('#obs').hide();
+        content += `
+            <div class="punish-config">
+                <div id="agravante_container">
+                   ${gerarTemplateLinhaAgravante()}
+                </div>
+                <button class="btn-staff" style="width: 100%; margin-top: 5px; background: #3498db;" onclick="adicionarAgravante()">+ ADICIONAR NOVO PLAYER</button>
+                <button class="btn-staff" style="width: 100%; margin-top: 5px; background: #e74c3c;" onclick="limparAgravante()">LIMPAR TUDO</button>
             </div>`;
     } else if (menuTitle.includes("PASSAGEM")) {
         $('#obs').hide(); // Oculta o container de logout para focar na passagem
@@ -668,7 +697,90 @@ function atualizarMensagemPunicao() {
     selecionarMensagem("DESFECHO", conteudo);
 }
 
+function gerarTemplateLinhaAgravante() {
+    let punishOptions = '<option value="" style="background: #0f172a; color: #fff;">+ Selecionar...</option>';
+    Object.keys(DISCORD_IDS.warnings).forEach(key => {
+        punishOptions += `<option value="${key}" style="background: #0f172a; color: #fff;">${key}</option>`;
+    });
+
+    const customArrow = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E";
+
+    return `
+        <div class="punish-row">
+            <div class="punish-header">
+                <input type="text" class="agravante-player-id" placeholder="ID DO PLAYER" oninput="atualizarMensagemAgravante()" style="background: #0f172a; color: #fff; border: 1px solid #334155; padding: 8px; border-radius: 4px; flex-grow: 1; outline: none;">
+                <button class="btn-remove-row" onclick="removerAgravante(this)">×</button>
+            </div>
+
+            <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">PUNIÇÃO ANTERIOR:</label>
+            <select class="punish-select agravante-first-punish" onchange="atualizarMensagemAgravante()" style="background-color: #0f172a; color: #fff; border: 1px solid #334155; padding: 8px 30px 8px 8px; border-radius: 4px; width: 100%; margin-top: 5px; outline: none; appearance: none; -webkit-appearance: none; background-image: url(&quot;${customArrow}&quot;); background-repeat: no-repeat; background-position: right 10px center;">
+                ${punishOptions}
+            </select>
+
+            <label style="color: #94a3b8; font-size: 10px; margin-top: 10px; display: block; font-weight: bold;">PUNIÇÃO AGRAVADA:</label>
+            <select class="punish-select agravante-second-punish" onchange="atualizarMensagemAgravante()" style="background-color: #0f172a; color: #fff; border: 1px solid #334155; padding: 8px 30px 8px 8px; border-radius: 4px; width: 100%; margin-top: 5px; outline: none; border-left: 3px solid #e74c3c; appearance: none; -webkit-appearance: none; background-image: url(&quot;${customArrow}&quot;); background-repeat: no-repeat; background-position: right 10px center;">
+                ${punishOptions}
+            </select>
+        </div>`;
+}
+
+function adicionarAgravante() {
+    $('#agravante_container').append(gerarTemplateLinhaAgravante());
+}
+
+function removerAgravante(btn) {
+    $(btn).closest('.punish-row').remove();
+    atualizarMensagemAgravante();
+}
+
+function limparAgravante() {
+    $('#agravante_container').html(gerarTemplateLinhaAgravante());
+    $('#preview-text').val('');
+}
+
+function atualizarMensagemAgravante() {
+    let players = [];
+
+    $('.punish-row').each(function() {
+        const $row = $(this);
+        const playerId = $row.find('.agravante-player-id').val().trim();
+        const firstPunish = $row.find('.agravante-first-punish').val();
+        const secondPunish = $row.find('.agravante-second-punish').val();
+
+        if (playerId && firstPunish && secondPunish) {
+            const firstPunishMention = DISCORD_IDS.warnings[firstPunish] ? `<@&${DISCORD_IDS.warnings[firstPunish]}>` : firstPunish;
+            const secondPunishMention = DISCORD_IDS.warnings[secondPunish] ? `<@&${DISCORD_IDS.warnings[secondPunish]}>` : secondPunish;
+
+            players.push({
+                id: playerId,
+                firstPunish: firstPunishMention,
+                secondPunish: secondPunishMention
+            });
+        }
+    });
+
+    if (players.length === 0) return;
+
+    let conteudo = '';
+
+    if (players.length === 1) {
+        const p = players[0];
+        const playerMencao = `<@${p.id}>`;
+        conteudo = `Prezado(a) ${playerMencao},\n\nEm razão do não comparecimento ao suporte para orientação, sua punição se agravou de ${p.firstPunish} para ${p.secondPunish}.\n\nA equipe da STAFF ABCD segue à disposição para eventuais esclarecimentos.`;
+    } else {
+        conteudo = `Prezados (as) players,\n`;
+        players.forEach((p) => {
+            const playerMencao = `<@${p.id}>`;
+            conteudo += `\n${playerMencao},\n\nEm razão do não comparecimento ao suporte para orientação, sua punição se agravou de ${p.firstPunish} para ${p.secondPunish}.\n`;
+        });
+        conteudo += `\nA equipe da STAFF ABCD segue à disposição para eventuais esclarecimentos.`;
+    }
+
+    selecionarMensagem("AGRAVANTE", conteudo);
+}
+
 function atualizarMensagemIntimacao() {
+
     const reportedId = $('#reported_player_id').val().trim();
     const modId = DISCORD_IDS.roles['moderador'];
     const modMention = `<@&${modId}>`;

@@ -1,6 +1,3 @@
-REGRAS ABCD
-
-INTRODUÇÃO
 ATENÇÃO
 Independentemente das regras estabelecidas neste documento, a equipe do ABCD Roleplay possui total prerrogativa para orientar, advertir, remanejar ou excluir qualquer membro da comunidade que não esteja em conformidade com os padrões de conduta, convivência e roleplay exigidos pela administração.
 
@@ -360,7 +357,7 @@ USO DE PODERES ADMINISTRATIVOS
 
 COMUNICAÇÃO OFICIAL
 • Todo e qualquer assunto relacionado ao ABCD entre staff e jogadores deve ser tratado obrigatoriamente através de tickets ou calls de suporte no Discord oficial do ABCD.
-• Assuntos administrativos não devem ser tratados por mensagens privadas ou outros meios 
+• Assuntos administrativos não devem ser tratados por mensagens privadas ou outros meios informais.
 
 REGRAS PUNIÇÕES
 Advertências e Punições
@@ -1263,14 +1260,7 @@ Regras de Ações
 As regras abaixo regulam todas as ações do servidor, incluindo ações de rua, perseguições, sequestros, resgates, ações pequenas, médias e grandes. O objetivo é manter o equilíbrio entre os lados, preservar a qualidade do roleplay e evitar abusos durante confrontos, fugas e negociações.
 
 Armamentos na rua em ações abertas
-• Abaixo da linha vermelha no mapa (cidade) é permitido apenas o uso de PISTOLAS de ambos os lados (policia e bandido).
-
-• Acima da linha vermelha no mapa (norte) é permitido uso de SMG, Fuzil e Calibre 12 de ambos os lados (policia e bandido).
-
-• Quando posso utilizar os seguintes armamentos SMG, Fuzil ou Calibre 12 abaixo da linha vermelha (cidade)? Em ações fechadas (blipadas) que as desde que as respectivas regras permitam e em Ações dentro de favelas.
-
-
-• Ex: Carro Forte, Horario de Assalto, Helicrash, Roubo a Residência e resgates. Se ocorrerem abaixo da linha vermelha  é obrigatório o uso de apenas pistola de ambos os lados, se ocorrer acima da linha vermelha é permitido calibres maiores que pistola de ambos os lados;
+• Fica permitido utilização de qualquer armamento em ações de rua abertas incluindo horário de assalto. (Para ações fechadas e outras como caixa eletrônico, hacker, barbearia e afins consulte os armamentos permitidos)
 
 Regras Gerais das Ações
 • Apenas jogadores diretamente envolvidos na ação podem realizar loot.
@@ -1605,8 +1595,6 @@ Roubo a Residência
 
 • Bandidos: mínimo de 1, máximo de 3.
 
-• Se ocorrer abaixo da linha vermelha é permitido apenas pistola, caso ocorra acima fica permitido calibres maiores.
-
 • Não é permitido loot em policiais.
 
 • A polícia está autorizada a deter os bandidos ao chegar ao local.
@@ -1940,8 +1928,6 @@ Regras de Guerra entre Organizações
 Regras de Assalto a Player
 • É permitido assaltar jogadores apenas quando aparecer na tela o aviso “RISCO DE ASSALTO”.
 
-• Se o assalto ocorrer da cidade abaixo da linha vermelha é permitido apenas o uso de Pistola para ambos os lados (polícia, assaltado e bandido), caso ocorra acima da linha vermelha fica permitido armas de maior calibre.
-
 Regras de Furto
 • Furto é a subtração de bem móvel alheio sem contato com a vítima e sem uso de violência ou ameaça.
 
@@ -2142,4 +2128,3 @@ deve inicialmente ser tratada pela ouvidoria interna do respectivo órgão.
 • Processos judiciais podem ser abertos desde que existam provas e testemunhas que comprovem o ocorrido.
 
 • Todo cidadão que for detido por pena de até 10 meses tem o direito de solicitar conversão da pena em serviço comunitário, conforme avaliação do sistema jurídico da cidade.
-
