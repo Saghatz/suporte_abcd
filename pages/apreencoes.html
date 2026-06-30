@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSP · Gerador de Apreensões</title>
+<style>
+  :root{
+    --bg:#0E1116;
+    --bg2:#11161D;
+    --panel:#161C25;
+    --panel2:#1B232E;
+    --line:#27313D;
+    --line2:#323E4C;
+    --ink:#E8ECF2;
+    --muted:#8B96A6;
+    --muted2:#637084;
+    --gold:#D6A94E;
+    --gold-dim:#9c7c3c;
+    --blue:#4E86C6;
+    --green:#52B788;
+    --red:#D26060;
+    --radius:10px;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(78,134,198,.06), transparent 60%),
+      radial-gradient(700px 400px at -5% 0%, rgba(214,169,78,.05), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  a{color:var(--blue)}
+
+  /* ---- Header ---- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--bg2),transparent);
+  }
+  .head-inner{
+    max-width:1280px;margin:0 auto;padding:20px 24px;
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .seal{
+    width:46px;height:46px;border-radius:50%;flex:none;
+    border:2px solid var(--gold);
+    display:grid;place-items:center;
+    background:radial-gradient(circle at 50% 35%,rgba(214,169,78,.18),transparent 70%);
+    color:var(--gold);font-weight:800;font-size:18px;letter-spacing:.5px;
+    box-shadow:0 0 0 4px rgba(214,169,78,.06);
+  }
+  .titles h1{
+    margin:0;font-size:16px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  }
+  .titles p{
+    margin:2px 0 0;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  }
+  .head-spacer{flex:1}
+  .stamp{
+    margin-left:auto;border:1px dashed var(--gold-dim);color:var(--gold);
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    padding:6px 12px;border-radius:6px;transform:rotate(-1.5deg);font-weight:700;
+    white-space:nowrap;
+  }
+
+  /* ---- Layout ---- */
+  main{max-width:1280px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:960px){main{grid-template-columns:1fr}}
+
+  .col{display:flex;flex-direction:column;gap:18px;min-width:0}
+
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .card-h{
+    display:flex;align-items:center;gap:10px;
+    padding:13px 16px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--panel2),transparent);
+  }
+  .card-h .idx{
+    font-family:var(--mono);font-size:11px;color:var(--gold);
+    border:1px solid var(--gold-dim);border-radius:4px;padding:1px 6px;font-weight:700;
+  }
+  .card-h h2{margin:0;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .card-h .hint{margin-left:auto;color:var(--muted2);font-size:11px}
+  .card-b{padding:16px}
+
+  label.fld{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+
+  textarea,input[type=text],select{
+    width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--ink);
+    border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:13px;
+    outline:none;transition:border-color .15s,box-shadow .15s;
+  }
+  textarea{min-height:280px;resize:vertical;line-height:1.55}
+  textarea:focus,input:focus,select:focus{border-color:var(--gold-dim);box-shadow:0 0 0 3px rgba(214,169,78,.12)}
+  select{font-family:var(--sans);cursor:pointer}
+
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row > div{flex:1;min-width:140px}
+
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{
+    font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;
+    border-radius:8px;padding:11px 16px;cursor:pointer;border:1px solid transparent;
+    transition:transform .08s,background .15s,border-color .15s;
+  }
+  button:active{transform:translateY(1px)}
+  .btn-primary{background:var(--gold);color:#1a1408;border-color:var(--gold)}
+  .btn-primary:hover{background:#e3b85f}
+  .btn-ghost{background:transparent;color:var(--muted);border-color:var(--line2)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--muted2)}
+  .btn-copy{background:var(--green);color:#08231a;border-color:var(--green)}
+  .btn-copy:hover{background:#62c79a}
+
+  /* parse summary */
+  .summary{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .pill{
+    font-family:var(--mono);font-size:12px;background:var(--bg2);border:1px solid var(--line);
+    border-radius:7px;padding:7px 11px;color:var(--muted);
+  }
+  .pill b{color:var(--ink)}
+  .pill.alert{border-color:var(--gold-dim);color:var(--gold)}
+
+  /* config */
+  details.cfg{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+  details.cfg summary{
+    list-style:none;cursor:pointer;padding:13px 16px;
+    display:flex;align-items:center;gap:10px;
+    background:linear-gradient(180deg,var(--panel2),transparent);
+    font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  }
+  details.cfg summary::-webkit-details-marker{display:none}
+  details.cfg summary .chev{margin-left:auto;color:var(--muted2);transition:transform .2s}
+  details.cfg[open] summary .chev{transform:rotate(90deg)}
+  .cfg-b{padding:16px;border-top:1px solid var(--line)}
+
+  table.map{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.map th{
+    text-align:left;color:var(--muted);font-weight:600;font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)
+  }
+  table.map td{padding:5px 8px;border-bottom:1px solid var(--bg2);vertical-align:middle}
+  table.map input{padding:6px 8px;font-size:12px}
+  table.map .det{font-family:var(--mono);color:var(--muted2);font-size:11px;text-align:center}
+  table.map .det.on{color:var(--green)}
+  .new-tag{font-size:9px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:3px;padding:0 4px;margin-left:6px;letter-spacing:.05em;vertical-align:middle}
+
+  /* output */
+  .out-wrap{position:relative}
+  .output{
+    margin:0;white-space:pre-wrap;word-break:break-word;
+    font-family:var(--mono);font-size:12.5px;line-height:1.6;color:#d7dde6;
+    background:var(--bg2);border:1px solid var(--line2);border-radius:8px;
+    padding:16px;min-height:320px;max-height:640px;overflow:auto;
+  }
+  .output.empty{color:var(--muted2);display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--sans)}
+  .copy-bar{display:flex;align-items:center;gap:12px;margin-top:14px}
+  .copy-note{color:var(--muted2);font-size:12px}
+
+  .legend{font-size:11.5px;color:var(--muted2);line-height:1.7;margin-top:10px}
+  .legend code{font-family:var(--mono);background:var(--bg2);border:1px solid var(--line);padding:1px 5px;border-radius:4px;color:var(--muted)}
+
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+    background:var(--green);color:#08231a;font-weight:700;font-size:13px;
+    padding:11px 20px;border-radius:8px;opacity:0;pointer-events:none;
+    transition:opacity .2s,transform .2s;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.4);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  footer{max-width:1280px;margin:0 auto;padding:8px 24px 40px;color:var(--muted2);font-size:11.5px}
+</style>
+</head>
+<body>
+<header>
+  <div class="head-inner">
+    <div class="seal">SSP</div>
+    <div class="titles">
+      <h1>Gerador de Apreensões</h1>
+      <p>Secretaria de Segurança Pública · Relatório semanal</p>
+    </div>
+    <div class="head-spacer"></div>
+    <div class="stamp" id="weekStamp">Semana 1</div>
+  </div>
+</header>
+
+<main>
+  <!-- LEFT -->
+  <section class="col">
+    <div class="card">
+      <div class="card-h"><span class="idx">01</span><h2>Dados do servidor</h2><span class="hint">Cole o registro de apreensões</span></div>
+      <div class="card-b">
+        <label class="fld" for="raw">Registro bruto</label>
+        <textarea id="raw" spellcheck="false" placeholder="Cole aqui os blocos de apreensão. Cada bloco em 4 linhas:&#10;&#10;Item&#10;Qtd: 1 • GUARNIÇÃO&#10;Policial (ID)&#10;dd/mm/aaaa hh:mm:ss"></textarea>
+        <div class="btns">
+          <button class="btn-primary" id="gerar">Gerar relatório</button>
+          <button class="btn-ghost" id="exemplo">Carregar exemplo</button>
+          <button class="btn-ghost" id="limpar">Limpar</button>
+        </div>
+        <div class="summary" id="summary"></div>
+      </div>
+    </div>
+
+    <details class="cfg" id="cfg">
+      <summary><span class="idx" style="border-color:var(--line2);color:var(--muted)">02</span> Configuração &amp; Guarnições <span class="chev">›</span></summary>
+      <div class="cfg-b">
+        <div class="row" style="margin-bottom:16px">
+          <div>
+            <label class="fld" for="semana">Texto da semana</label>
+            <input type="text" id="semana" value="Semana 1">
+          </div>
+          <div>
+            <label class="fld" for="metric">Critério do TOP de apreensões</label>
+            <select id="metric">
+              <option value="records">Nº de registros (apreensões)</option>
+              <option value="qtyNoMoney">Soma de quantidades (sem dinheiro)</option>
+              <option value="qtyAll">Soma de quantidades (tudo)</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="fld">Mapa de guarnições → ID do cargo (tag do Discord)</label>
+        <p style="margin:0 0 10px;color:var(--muted2);font-size:11.5px">
+          O nome da guarnição vem depois do <code style="font-family:var(--mono)">•</code> no registro. Guarnições novas aparecem aqui automaticamente para você colar o ID do cargo.
+        </p>
+        <table class="map">
+          <thead><tr><th>Guarnição (nome exibido)</th><th>ID do cargo</th><th style="width:60px;text-align:center">No lote</th></tr></thead>
+          <tbody id="mapBody"></tbody>
+        </table>
+        <div class="btns">
+          <button class="btn-ghost" id="resetCfg">Restaurar padrões</button>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- RIGHT -->
+  <section class="col">
+    <div class="card">
+      <div class="card-h"><span class="idx">03</span><h2>Relatório · pronto para o Discord</h2><span class="hint" id="outMeta"></span></div>
+      <div class="card-b">
+        <div class="out-wrap">
+          <pre class="output empty" id="output">O relatório aparece aqui depois de você gerar.</pre>
+        </div>
+        <div class="copy-bar">
+          <button class="btn-copy" id="copiar">Copiar texto</button>
+          <span class="copy-note">Cole direto no canal do Discord. Os <code style="font-family:var(--mono);background:var(--bg2);padding:1px 4px;border-radius:3px">&lt;:emoji:&gt;</code> renderizam no seu servidor.</span>
+        </div>
+        <div class="legend">
+          <b style="color:var(--muted)">Como é montado:</b><br>
+          · <b>TOP apreensões</b> — soma por guarnição (critério acima), top 9 com a tag do cargo.<br>
+          · <b>Dinheiro</b> — Reais manchados + molhados, top 9.<br>
+          · <b>Armas de fogo</b> — soma dos itens da lista de armas, top 9.<br>
+          · <b>Bombas caseiras</b> — soma de "Bomba Caseira", top 9.
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>Ferramenta local · nenhum dado sai do seu navegador. Os IDs de cargo e a semana ficam salvos neste dispositivo.</footer>
+
+<div class="toast" id="toast">Copiado!</div>
+
+<script>
+"use strict";
+
+/* ============== utils ============== */
+const $ = s => document.querySelector(s);
+const stripAccents = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const canon = s => stripAccents(String(s).toLowerCase()).replace(/[^a-z0-9]/g,'');
+const parseQty = s => { const d = String(s).replace(/[^\d]/g,''); return d ? parseInt(d,10) : 0; };
+const fmtMoney = v => 'R$ ' + v.toLocaleString('pt-BR');
+
+/* ============== item categories ============== */
+const FIREARMS = new Set([
+  'cz52','f57','m1911','fnmag58','rpd','fnfall1a1','parafalil','g36c',
+  'ak47mk2','ak47','asval','ak102','ak74n','aa12','mossberg500','mossberg590a1',
+  'glock22','revolver','t54','kalashnikovk12','keltec'
+]);
+function classify(item){
+  const k = canon(item);
+  if(k.includes('reaismanch')) return 'money';
+  if(k.includes('reaismolh'))  return 'money';
+  if(k.includes('bombacaseira')) return 'bomb';
+  if(FIREARMS.has(k)) return 'firearm';
+  return 'other';
+}
+
+/* ============== Discord emoji constants ============== */
+const E = {
+  logo:'<:logosspsp:1499552203260821647>',
+  distintivo:'<:distintivodepolicia:1511492341192593468>',
+  qsj:'<:qsj:1511492000988401955>',
+  arma:'<:arma:1511492101291114556>',
+  bomba:'<:bombear:1511492820467187722>',
+  ouro:'<:primeirolugar:1511493458253054083>',
+  prata:'<:medalhadeprata:1511493486963064943>',
+  bronze:'<:medalhadebronze:1511493517325762684>',
+  forca:'<a:emoji_53:1106532949823856680>'
+};
+const SEP = '━━━━━━━━━━━━━━━━━━';
+
+/* ============== garrison config ============== */
+const DEFAULTS = [
+  {id:'dgpcesp',  aliases:['dgpcesp','policiacivil','policialcivil','pcesp'], display:'DGPCESP',  roleId:'1197293781658128504'},
+  {id:'baep',     aliases:['baep'],                                          display:'BAEP',     roleId:'1275898377728430332'},
+  {id:'caep',     aliases:['caep'],                                          display:'CAEP',     roleId:'1294118601489518674'},
+  {id:'rota',     aliases:['rota'],                                          display:'ROTA',     roleId:'1267595839920935025'},
+  {id:'6bpm',     aliases:['6bpm','6bpmm','o6bpm','6ºbpm','6ºbpmm','seisbpm'],display:'6ºBPM/M', roleId:'1197293777681911948'},
+  {id:'anchieta', aliases:['anchieta','2bchqanchieta','2bchq'],              display:'ANCHIETA', roleId:'1345546185804611655'},
+  {id:'humaita',  aliases:['humaita','3bchqhumaita','3bchq'],                display:'HUMAITÁ',  roleId:'1275580567341109268'},
+  {id:'coegate',  aliases:['coegate','4bchqcoegate','4bchq','gate','coe'],   display:'COE/GATE', roleId:'1275907854792130571'},
+  {id:'prf',      aliases:['prf'],                                           display:'PRF',      roleId:'1275914318654738485'},
+  {id:'pf',       aliases:['pf','policiafederal'],                           display:'PF',       roleId:'1445889485828133055'},
+  {id:'gcm',      aliases:['gcm','guardacivilmunicipal','guardacivil'],      display:'GCM',      roleId:'1267595270326063124'},
+  {id:'exercito', aliases:['exercito'],                                      display:'EXÉRCITO', roleId:'1197293765036089475'}
+];
+
+const STORE_KEY = 'ssp_apreensoes_cfg_v1';
+let entries = [];      // [{id, aliases, display, roleId, detected}]
+let index = {};        // canon -> entry
+
+function buildDefaults(){
+  entries = DEFAULTS.map(d => ({id:d.id, aliases:[...d.aliases], display:d.display, roleId:d.roleId, detected:0}));
+  reindex();
+}
+function reindex(){
+  index = {};
+  for(const e of entries){
+    for(const a of e.aliases) index[a] = e;
+    index[canon(e.display)] = e;
+    index[e.id] = e;
+  }
+}
+function resolveGarrison(name){
+  const c = canon(name);
+  let e = index[c];
+  if(!e){
+    e = {id:c||('g'+entries.length), aliases:[c], display:(name||'').trim()||name, roleId:'', detected:0, isNew:true};
+    entries.push(e);
+    index[c] = e;
+  }
+  return e;
+}
+function loadCfg(){
+  buildDefaults();
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY)||'null');
+    if(saved){
+      if(saved.semana) $('#semana').value = saved.semana;
+      if(saved.metric) $('#metric').value = saved.metric;
+      if(Array.isArray(saved.entries)){
+        for(const s of saved.entries){
+          let e = index[s.id] || index[canon(s.display||'')];
+          if(e){ if(s.display) e.display=s.display; e.roleId = s.roleId||''; }
+          else { const ne={id:s.id,aliases:[s.id],display:s.display||s.id,roleId:s.roleId||'',detected:0}; entries.push(ne); }
+        }
+        reindex();
+      }
+    }
+  }catch(_){}
+}
+function saveCfg(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      semana:$('#semana').value,
+      metric:$('#metric').value,
+      entries:entries.map(e=>({id:e.id,display:e.display,roleId:e.roleId}))
+    }));
+  }catch(_){}
+}
+
+/* ============== parsing ============== */
+const QTY_RE = /^\s*(?:qtd\.?|quantidade)\s*:?\s*([\d.,]+)\s*[•·∙*\u2022\-—|]\s*(.+?)\s*$/i;
+
+function parseRecords(text){
+  const lines = text.split(/\r?\n/);
+  const recs = [];
+  let prev = '';
+  for(const raw of lines){
+    const line = raw.trim();
+    const m = line.match(QTY_RE);
+    if(m){
+      const qty = parseQty(m[1]);
+      const garrison = m[2].trim();
+      const item = prev.trim();
+      if(item && garrison) recs.push({item, qty, garrison});
+    }
+    if(line) prev = line;
+  }
+  return recs;
+}
+
+/* ============== aggregation ============== */
+function aggregate(recs){
+  for(const e of entries) e.detected = 0;
+  const map = new Map(); // entry -> stats
+  for(const r of recs){
+    const e = resolveGarrison(r.garrison);
+    e.detected++;
+    let a = map.get(e);
+    if(!a){ a = {records:0,qtyAll:0,qtyNoMoney:0,money:0,firearms:0,bombs:0}; map.set(e,a); }
+    a.records++;
+    a.qtyAll += r.qty;
+    const c = classify(r.item);
+    if(c === 'money') a.money += r.qty;
+    else a.qtyNoMoney += r.qty;
+    if(c === 'firearm') a.firearms += r.qty;
+    if(c === 'bomb')    a.bombs   += r.qty;
+  }
+  return map;
+}
+
+function rank(map, fn){
+  const arr = [...map.entries()]
+    .map(([e,a]) => ({e, v:fn(a)}))
+    .filter(x => x.v > 0);
+  arr.sort((x,y) => y.v - x.v || x.e.display.localeCompare(y.e.display));
+  return arr.slice(0,9);
+}
+
+/* ============== output building ============== */
+function medal(i){ return i===1?E.ouro : i===2?E.prata : i===3?E.bronze : (i+'°'); }
+function tagFor(e){ return e.roleId ? `<@&${e.roleId}>` : `**${e.display}**`; }
+
+function buildReport(map){
+  const metric = $('#metric').value;
+  const metricFn = metric==='records' ? a=>a.records
+                 : metric==='qtyAll'  ? a=>a.qtyAll
+                 :                      a=>a.qtyNoMoney;
+
+  const topTotal = rank(map, metricFn);
+  const topMoney = rank(map, a=>a.money);
+  const topGuns  = rank(map, a=>a.firearms);
+  const topBombs = rank(map, a=>a.bombs);
+  const semana = $('#semana').value.trim() || 'Semana 1';
+
+  const out = [];
+  out.push(`# INFORME OFICIAL – SECRETARIA DE SEGURANÇA PÚBLICA ${E.logo}`);
+  out.push(`*A Secretaria de Segurança Pública parabeniza todos os policiais e guarnições pelo excelente desempenho operacional apresentado nesta semana.*`);
+  out.push(`* **${semana}**`);
+
+  // 1) TOP geral (com tags)
+  out.push(`## ${E.distintivo}  TOP GUARNIÇÕES POR TOTAL DE APREENSÕES`);
+  topTotal.forEach((x,i)=> out.push(`**#${i+1}°  ${tagFor(x.e)} **`));
+  if(!topTotal.length) out.push(`*Sem dados.*`);
+  out.push(SEP);
+
+  // 2) Dinheiro
+  out.push(`# ${E.qsj}  RANKING — DINHEIRO APREENDIDO`);
+  out.push(`## Reais Manchados + Molhados`);
+  if(topMoney.length) topMoney.forEach((x,i)=> out.push(`${medal(i+1)} **${x.e.display} — ${fmtMoney(x.v)}**`));
+  else out.push(`*Sem dinheiro apreendido.*`);
+  out.push(SEP);
+
+  // 3) Armas de fogo
+  out.push(`# ${E.arma}  RANKING DE ARMAS DE FOGO APREENDIDAS`);
+  out.push(`## TOP ARMAMENTOS`);
+  if(topGuns.length) topGuns.forEach((x,i)=> out.push(`${medal(i+1)} **${x.e.display} — ${x.v} **`));
+  else out.push(`*Sem armas apreendidas.*`);
+  out.push(SEP);
+
+  // 4) Bombas caseiras
+  out.push(`# ${E.bomba}  RANKING — BOMBAS CASEIRAS`);
+  if(topBombs.length) topBombs.forEach((x,i)=> out.push(`${medal(i+1)} **${x.e.display} — ${x.v}**`));
+  else out.push(`*Sem bombas caseiras apreendidas.*`);
+  out.push(SEP);
+
+  // footer
+  out.push(`# SECRETARIA DE SEGURANÇA PÚBLICA ${E.logo}`);
+  out.push(`“Força e Honra ! .” ${E.forca}`);
+  out.push(`||@everyone ||`);
+
+  return out.join('\n');
+}
+
+/* ============== UI rendering ============== */
+function renderMap(){
+  const body = $('#mapBody');
+  body.innerHTML = '';
+  // detected first, then the rest
+  const sorted = [...entries].sort((a,b)=> (b.detected>0)-(a.detected>0) || b.detected-a.detected || a.display.localeCompare(b.display));
+  for(const e of sorted){
+    const tr = document.createElement('tr');
+
+    const tdName = document.createElement('td');
+    const inName = document.createElement('input');
+    inName.type='text'; inName.value=e.display;
+    inName.addEventListener('input', ()=>{ e.display=inName.value; saveCfg(); regenIfReady(); });
+    tdName.appendChild(inName);
+    if(e.isNew){ const t=document.createElement('span'); t.className='new-tag'; t.textContent='NOVA'; tdName.appendChild(t); }
+    tr.appendChild(tdName);
+
+    const tdId = document.createElement('td');
+    const inId = document.createElement('input');
+    inId.type='text'; inId.value=e.roleId; inId.placeholder='ID do cargo';
+    inId.addEventListener('input', ()=>{ e.roleId=inId.value.replace(/[^\d]/g,''); inId.value=e.roleId; saveCfg(); regenIfReady(); });
+    tdId.appendChild(inId);
+    tr.appendChild(tdId);
+
+    const tdDet = document.createElement('td');
+    tdDet.className = 'det' + (e.detected>0?' on':'');
+    tdDet.textContent = e.detected>0 ? e.detected : '—';
+    tr.appendChild(tdDet);
+
+    body.appendChild(tr);
+  }
+}
+
+let lastRecs = null;
+function generate(){
+  const recs = parseRecords($('#raw').value);
+  lastRecs = recs;
+  const map = aggregate(recs);
+
+  // summary pills
+  const garr = new Set(recs.map(r=>resolveGarrison(r.garrison)));
+  const totalItems = recs.reduce((s,r)=>s+r.qty,0);
+  const sum = $('#summary');
+  sum.innerHTML='';
+  const mk=(html,alert)=>{const d=document.createElement('div');d.className='pill'+(alert?' alert':'');d.innerHTML=html;sum.appendChild(d);};
+  if(recs.length){
+    mk(`<b>${recs.length}</b> registros`);
+    mk(`<b>${garr.size}</b> guarnições`);
+    mk(`<b>${totalItems.toLocaleString('pt-BR')}</b> itens (somados)`);
+    const missing = [...garr].filter(e=>!e.roleId).length;
+    if(missing) mk(`<b>${missing}</b> sem ID de cargo`, true);
+  } else {
+    mk(`Nenhum registro reconhecido — confira o formato.`, true);
+  }
+
+  // output
+  const outEl = $('#output');
+  if(recs.length){
+    const text = buildReport(map);
+    outEl.textContent = text;
+    outEl.classList.remove('empty');
+    outEl.dataset.text = text;
+    $('#outMeta').textContent = `${recs.length} registros · ${garr.size} guarnições`;
+  } else {
+    outEl.textContent = 'Nenhum bloco de apreensão reconhecido. Cada bloco precisa de uma linha com "Qtd: N • GUARNIÇÃO".';
+    outEl.classList.add('empty');
+    outEl.dataset.text = '';
+    $('#outMeta').textContent = '';
+  }
+
+  renderMap();
+}
+function regenIfReady(){ if(lastRecs && lastRecs.length) generate(); }
+
+/* ============== copy ============== */
+function copyOut(){
+  const text = $('#output').dataset.text || '';
+  if(!text){ toast('Gere o relatório primeiro'); return; }
+  const done = ()=>toast('Copiado!');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
+  } else fallbackCopy(text,done);
+}
+function fallbackCopy(text,done){
+  const ta=document.createElement('textarea');
+  ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(_){ toast('Não foi possível copiar'); }
+  document.body.removeChild(ta);
+}
+let toastT;
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),1600);
+}
+
+/* ============== example ============== */
+const EXAMPLE = `Reais manchado
+Qtd: 2.450.000 • DGPCESP
+Cristian Ferreira (3807)
+22/06/2026 19:24:52
+
+Reais molhados
+Qtd: 1.764.410 • DGPCESP
+Cristian Ferreira (3807)
+22/06/2026 19:25:10
+
+AK 47
+Qtd: 5 • DGPCESP
+Marcos Lima (1102)
+22/06/2026 18:10:03
+
+Bomba Caseira
+Qtd: 24 • DGPCESP
+Marcos Lima (1102)
+22/06/2026 18:11:40
+
+Reais molhados
+Qtd: 951.370 • BAEP
+Rafael Souza (2204)
+22/06/2026 17:02:11
+
+AK-102
+Qtd: 9 • BAEP
+Rafael Souza (2204)
+22/06/2026 17:05:00
+
+Mossberg 500
+Qtd: 6 • BAEP
+Rafael Souza (2204)
+22/06/2026 17:06:21
+
+Bomba Caseira
+Qtd: 41 • BAEP
+Rafael Souza (2204)
+22/06/2026 17:09:00
+
+Reais manchado
+Qtd: 226.807 • CAEP
+Lucas Pinto (3010)
+22/06/2026 16:00:00
+
+G36C
+Qtd: 8 • CAEP
+Lucas Pinto (3010)
+22/06/2026 16:02:00
+
+Bomba Caseira
+Qtd: 30 • CAEP
+Lucas Pinto (3010)
+22/06/2026 16:05:00
+
+Reais molhados
+Qtd: 165.330 • 6ºBPM/M
+Pedro Alves (4501)
+22/06/2026 15:00:00
+
+AK 47 MK2
+Qtd: 18 • 6ºBPM/M
+Pedro Alves (4501)
+22/06/2026 15:03:00
+
+Bomba Caseira
+Qtd: 49 • 6ºBPM/M
+Pedro Alves (4501)
+22/06/2026 15:06:00
+
+Reais manchado
+Qtd: 65.113 • ROTA
+João Dias (5500)
+22/06/2026 14:00:00
+
+FN FAL L1A1
+Qtd: 11 • ROTA
+João Dias (5500)
+22/06/2026 14:02:00
+
+Bomba Caseira
+Qtd: 35 • ROTA
+João Dias (5500)
+22/06/2026 14:05:00
+
+Reais molhados
+Qtd: 219.286 • PF
+Ana Costa (6600)
+22/06/2026 13:00:00
+
+AS VAL
+Qtd: 8 • PF
+Ana Costa (6600)
+22/06/2026 13:02:00
+
+Bomba Caseira
+Qtd: 16 • PF
+Ana Costa (6600)
+22/06/2026 13:05:00
+
+Munição de Rifle
+Qtd: 120 • DGPCESP
+Cristian Ferreira (3807)
+22/06/2026 19:30:00`;
+
+/* ============== events ============== */
+$('#gerar').addEventListener('click', generate);
+$('#copiar').addEventListener('click', copyOut);
+$('#exemplo').addEventListener('click', ()=>{ $('#raw').value=EXAMPLE; generate(); $('#cfg').open=true; });
+$('#limpar').addEventListener('click', ()=>{
+  $('#raw').value=''; lastRecs=null;
+  $('#summary').innerHTML=''; $('#outMeta').textContent='';
+  const o=$('#output'); o.textContent='O relatório aparece aqui depois de você gerar.'; o.classList.add('empty'); o.dataset.text='';
+  for(const e of entries) e.detected=0; renderMap();
+});
+$('#semana').addEventListener('input', ()=>{ $('#weekStamp').textContent=$('#semana').value.trim()||'Semana'; saveCfg(); regenIfReady(); });
+$('#metric').addEventListener('change', ()=>{ saveCfg(); regenIfReady(); });
+$('#resetCfg').addEventListener('click', ()=>{
+  try{ localStorage.removeItem(STORE_KEY); }catch(_){}
+  buildDefaults();
+  $('#semana').value='Semana 1'; $('#weekStamp').textContent='Semana 1'; $('#metric').value='records';
+  if(lastRecs) generate(); else renderMap();
+  toast('Padrões restaurados');
+});
+
+/* ctrl/cmd+enter to generate */
+$('#raw').addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&e.key==='Enter') generate(); });
+
+/* ============== init ============== */
+loadCfg();
+$('#weekStamp').textContent = $('#semana').value.trim() || 'Semana';
+renderMap();
+</script>
+</body>
+</html>
